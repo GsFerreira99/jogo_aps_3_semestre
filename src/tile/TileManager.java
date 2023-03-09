@@ -9,8 +9,8 @@ import java.io.*;
 public class TileManager {
 
     Game gp;
-    Tile[] tile;
-    int[][] mapTileNum;
+    public Tile[] tile;
+    public int[][] mapTileNum;
 
     public TileManager(Game gp) {
         this.gp = gp;
@@ -24,10 +24,13 @@ public class TileManager {
         try{
             tile[0] = new Tile();
             tile[0].image = ImageIO.read(new FileInputStream("res/tiles/rua_v.png"));
+
             tile[1] = new Tile();
             tile[1].image = ImageIO.read(new FileInputStream("res/tiles/rua_h.png"));
+
             tile[2] = new Tile();
             tile[2].image = ImageIO.read(new FileInputStream("res/tiles/space.png"));
+            tile[2].colision = true;
         }catch (IOException e){e.printStackTrace();}
     }
 

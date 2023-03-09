@@ -18,13 +18,19 @@ public class Player extends Entity {
         this.gp = gp;
         this.keyH = keyH;
 
+        solidArea = new Rectangle();
+        solidArea.x = 8;
+        solidArea.y = 16;
+        solidArea.width = 32;
+        solidArea.height = 32;
+
         setDefaultValues();
         getPlayerImage();
     }
 
     public void setDefaultValues() {
         x=100;
-        y=100;
+        y= gp.tileSize-4;
         speed=4;
         direction = "down";
     }
@@ -47,19 +53,28 @@ public class Player extends Entity {
     public void update(){
 
         if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
-
             if(keyH.upPressed) {
                 direction = "up";
-                y -= speed;
             }else if(keyH.downPressed) {
                 direction = "down";
-                y += speed;
             }else if(keyH.leftPressed) {
                 direction = "left";
-                x -= speed;
             }else if(keyH.rightPressed) {
                 direction = "right";
-                x += speed;
+            }
+
+            // CHECAGEM DE COLISÃO
+            colisionOn = false;
+            gp.cCHecker.checkTile(this);
+
+            // SE COLISÃO FOR 'false' SE MOVER
+            if(!colisionOn) {
+                switch (direction) {
+                    case "up" -> y -= speed;
+                    case "down" -> y += speed;
+                    case "left" -> x -= speed;
+                    case "right" -> x += speed;
+                }
             }
 
             spriteCounter++;
