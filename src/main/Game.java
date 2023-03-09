@@ -22,6 +22,7 @@ public class Game extends JPanel implements Runnable {
     Thread gameThread;
     TileManager tileM = new TileManager(this);
     Player player = new Player(this, keyH);
+    public ColisionChecker cCHecker = new ColisionChecker(this);
 
     //FPS
     int FPS = 60;
