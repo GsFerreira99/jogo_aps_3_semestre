@@ -10,11 +10,14 @@ public class ColisionChecker {
     }
 
     public void checkTile(Entity entity){
+
+        // DEFINE AS POSIÇÕES DE TODAS AS EXTREMIDADES DO BLOCO DE COLISÃO DO JOGADOR
         int entityLeftWorldX = entity.x + entity.solidArea.x;
         int entityRightWorldX = entity.x + entity.solidArea.x + entity.solidArea.width;
         int entityTopWorldY = entity.y + entity.solidArea.y;
         int entityBottomWorldY = entity.y + entity.solidArea.y + entity.solidArea.height;
 
+        // DEFINE AS BORDAS DO BLOCO DE COLISÃO DO JOGADOR
         int entityLeftCol = entityLeftWorldX/gp.tileSize;
         int entityRightCol = entityRightWorldX/gp.tileSize;
         int entityTopRow = entityTopWorldY/gp.tileSize;
@@ -23,6 +26,7 @@ public class ColisionChecker {
         int tileNum1, tileNum2;
 
         switch (entity.direction) {
+            // ESTRUTURA QUE VERIFICA SE O PLAYER PODERÁ ANDAR PARA AQUELE TILE BASEANDO-SE EM SUA POSIÇÃO FUTURA
             case "up" -> {
                 entityTopRow = (entityTopWorldY - entity.speed) / gp.tileSize;
                 tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityTopRow];
