@@ -17,7 +17,7 @@ public class TileManager {
         tile = new Tile[20];
         mapTileNum = new int[gp.maxScreenCol][gp.maxScreenRow];
         getTileImage();
-        loadMap();
+        loadMap("res/maps/fase_1.txt");
     }
 
     public void getTileImage() {
@@ -34,9 +34,9 @@ public class TileManager {
         }catch (IOException e){e.printStackTrace();}
     }
 
-    public void loadMap() {
+    public void loadMap(String mapFile) {
         try {
-            BufferedReader br = new BufferedReader(new FileReader("res/maps/fase_1.txt"));
+            BufferedReader br = new BufferedReader(new FileReader(mapFile));
             int col = 0;
             int row = 0;
             while (col<gp.maxScreenCol && row<gp.maxScreenRow){
