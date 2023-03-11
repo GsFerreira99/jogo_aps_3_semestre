@@ -62,12 +62,16 @@ public class Game extends JPanel implements Runnable {
         setLevel(2);
     }
 
+    public void resizeWindow(){
+        tileSize = window.getHeight()/maxScreenRow;
+    }
+
     public void setLevel(int level){
         levelManager.setLevel(level);
         tileM.loadMap(levelManager.getLevelMap());
     }
 
-    public void startHameThread() {
+    public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
     }
@@ -106,10 +110,14 @@ public class Game extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
 
+
+
         // DESENHA O MAPA
         tileM.draw(g2);
         // DESENHA O JOGADOR
         player.draw(g2);
+        //LEVEL
+        levelManager.getActiveLevel().draw(g2, this);
         g2.dispose();
     }
 }

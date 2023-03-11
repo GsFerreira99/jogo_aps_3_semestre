@@ -23,4 +23,8 @@ public class LevelManager {
     public String getLevelMap() {
         return levels[levelActive-1].mapFile;
     }
+
+    public Level getActiveLevel(){
+        return levels[levelActive-1];
+    }
 }
