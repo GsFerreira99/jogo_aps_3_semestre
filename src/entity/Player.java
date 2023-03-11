@@ -7,7 +7,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Objects;
 
 public class Player extends Entity {
 
@@ -31,7 +30,7 @@ public class Player extends Entity {
     public void setDefaultValues() {
         x=100;
         y= gp.tileSize-4;
-        speed=4;
+        speed=2;
         direction = "down";
     }
 

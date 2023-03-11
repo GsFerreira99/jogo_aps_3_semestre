@@ -23,7 +23,7 @@ public class Main {
         window.setVisible(true);
 
         // Inicia o loop principal do jogo
-        gamePanel.startHameThread();
+        gamePanel.startGameThread();
     }
 
 }
