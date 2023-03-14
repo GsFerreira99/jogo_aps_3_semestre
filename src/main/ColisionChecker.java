@@ -1,6 +1,7 @@
 package main;
 
 import entity.Entity;
+import items.SuperItem;
 
 public class ColisionChecker {
 
@@ -60,5 +61,75 @@ public class ColisionChecker {
                 }
             }
         }
+    }
+
+    public int checkObject(Entity entity, boolean player) {
+        int index = 999;
+        SuperItem[] items = gp.levelManager.getActiveLevel().items;
+        for(int i=0; i<items.length; i++){
+            if (items[i] != null){
+                entity.solidArea.x = entity.x + entity.solidArea.x;
+                entity.solidArea.y = entity.y + entity.solidArea.y;
+
+                items[i].solidArea.x = items[i].worldX + items[i].solidArea.x;
+                items[i].solidArea.y = items[i].worldY + items[i].solidArea.y;
+
+                switch (entity.direction) {
+                    case "up" -> {
+                        entity.solidArea.y -= entity.speed;
+                        if (entity.solidArea.intersects(items[i].solidArea)) {
+                            if(items[i].colision){
+                                entity.colisionOn = true;
+                            }
+                            if(player){
+                                index=i;
+                            }
+                        }
+                    }
+                    case "down" -> {
+                        entity.solidArea.y += entity.speed;
+                        if (entity.solidArea.intersects(items[i].solidArea)) {
+                            if(items[i].colision){
+                                entity.colisionOn = true;
+                            }
+                            if(player){
+                                index=i;
+                            }
+                        }
+                    }
+                    case "left" -> {
+                        entity.solidArea.x -= entity.speed;
+                        if (entity.solidArea.intersects(items[i].solidArea)) {
+                            if(items[i].colision){
+                                entity.colisionOn = true;
+                            }
+                            if(player){
+                                index=i;
+                            }
+                        }
+                    }
+                    case "right" -> {
+                        entity.solidArea.x += entity.speed;
+                        if (entity.solidArea.intersects(items[i].solidArea)) {
+                            if(items[i].colision){
+                                entity.colisionOn = true;
+                            }
+                            if(player){
+                                index=i;
+                            }
+                        }
+                    }
+                }
+                entity.solidArea.x = entity.solidAreaDefaultX;
+                entity.solidArea.y = entity.solidAreaDefaultY;
+                if (items[i] != null){
+                    items[i].solidArea.x = items[i].solidAreaDefaultX;
+                    items[i].solidArea.y = items[i].solidAreaDefaultY;
+                }else{
+                    gp.levelManager.getActiveLevel().contadorLixos--;
+                }
+            }
+        }
+        return index;
     }
 }
