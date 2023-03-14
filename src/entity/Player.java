@@ -14,6 +14,7 @@ public class Player extends Entity {
     Game gp;
     KeyHandler keyH;
     public int score=0;
+    public int vida = 5;
 
     public Player(Game gp, KeyHandler keyH) {
         this.gp = gp;
@@ -27,15 +28,13 @@ public class Player extends Entity {
         solidArea.width = 32;
         solidArea.height = 32;
 
-        int vida = 3;
-
         setDefaultValues();
         getPlayerImage();
     }
 
     public void setDefaultValues() {
         x=100;
-        y= gp.tileSize-4;
+        y= (gp.tileSize*2)-4;
         speed=2;
         direction = "down";
     }
@@ -141,7 +140,7 @@ public class Player extends Entity {
 
         }
 
-        g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
+        g2.drawImage(image, x, y, gp.tileSize-10, gp.tileSize-10, null);
     }
 
     public void pegarLixo(int i){

@@ -21,17 +21,21 @@ public class TileManager {
     }
 
     public void getTileImage() {
-        try{
-            tile[0] = new Tile();
-            tile[0].image = ImageIO.read(new FileInputStream("res/tiles/rua_v.png"));
-
-            tile[1] = new Tile();
-            tile[1].image = ImageIO.read(new FileInputStream("res/tiles/rua_h.png"));
-
-            tile[2] = new Tile();
-            tile[2].image = ImageIO.read(new FileInputStream("res/tiles/space.png"));
-            tile[2].colision = true;
-        }catch (IOException e){e.printStackTrace();}
+        try {
+            tile[0] = new Tile(ImageIO.read(new FileInputStream("res/tiles/rua_v.png")), false);
+            tile[1] = new Tile(ImageIO.read(new FileInputStream("res/tiles/rua_h.png")), false);
+            tile[2] = new Tile(ImageIO.read(new FileInputStream("res/tiles/grama.png")), true);
+            tile[3] = new Tile(ImageIO.read(new FileInputStream("res/tiles/rua_bot_left.png")), false);
+            tile[4] = new Tile(ImageIO.read(new FileInputStream("res/tiles/rua_bot_mid.png")), false);
+            tile[5] = new Tile(ImageIO.read(new FileInputStream("res/tiles/rua_bot_right.png")), false);
+            tile[6] = new Tile(ImageIO.read(new FileInputStream("res/tiles/rua_center.png")), false);
+            tile[7] = new Tile(ImageIO.read(new FileInputStream("res/tiles/rua_left_mid.png")), false);
+            tile[8] = new Tile(ImageIO.read(new FileInputStream("res/tiles/rua_right_mid.png")), false);
+            tile[9] = new Tile(ImageIO.read(new FileInputStream("res/tiles/rua_top_left.png")), false);
+            tile[10] = new Tile(ImageIO.read(new FileInputStream("res/tiles/rua_top_mid.png")), false);
+            tile[11] = new Tile(ImageIO.read(new FileInputStream("res/tiles/rua_top_right.png")), false);
+            tile[12] = new Tile(ImageIO.read(new FileInputStream("res/tiles/space.png")), true);
+        } catch (IOException e){e.printStackTrace();}
     }
 
     public void loadMap(String mapFile) {
