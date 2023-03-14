@@ -1,6 +1,7 @@
 package entity;
 import main.Game;
 import main.KeyHandler;
+import main.Ui.Ui;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -12,6 +13,7 @@ public class Player extends Entity {
 
     Game gp;
     KeyHandler keyH;
+    public int score=0;
 
     public Player(Game gp, KeyHandler keyH) {
         this.gp = gp;
@@ -20,8 +22,12 @@ public class Player extends Entity {
         solidArea = new Rectangle();
         solidArea.x = 8;
         solidArea.y = 16;
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
         solidArea.width = 32;
         solidArea.height = 32;
+
+        int vida = 3;
 
         setDefaultValues();
         getPlayerImage();
@@ -50,6 +56,7 @@ public class Player extends Entity {
     }
 
     public void update(){
+        Ui keyH = gp.uiManager.getTelaAtiva();
 
         if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
             if(keyH.upPressed) {
@@ -65,6 +72,11 @@ public class Player extends Entity {
             // CHECAGEM DE COLISÃO
             colisionOn = false;
             gp.cCHecker.checkTile(this);
+
+            //CHECAGEM DE COLISÃO COM OBJETOS
+            int objIndex = gp.cCHecker.checkObject(this, true);
+
+            pegarLixo(objIndex);
 
             // SE COLISÃO FOR 'false' SE MOVER
             if(!colisionOn) {
@@ -126,8 +138,18 @@ public class Player extends Entity {
                     image = right2;
                 }
             }
+
         }
 
         g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
+    }
+
+    public void pegarLixo(int i){
+        if(i!=999){
+            score+=gp.levelManager.getActiveLevel().items[i].score;
+            gp.levelManager.getActiveLevel().items[i] = null;
+            gp.playEffect(4);
+            gp.levelManager.getActiveLevel().contadorLixos--;
+        }
     }
 }

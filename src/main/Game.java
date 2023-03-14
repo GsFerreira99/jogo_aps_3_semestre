@@ -1,90 +1,68 @@
 package main;
 
 import entity.Player;
+import main.Ui.Ui;
+import main.Ui.UiManager;
 import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class Game extends JPanel implements Runnable {
-
-    // Tamanho de um tile da tela
-    final int originalTileSize = 16;
-    // Escala de multiplicação do tile
-    final int scale = 3;
-
-    // tamanho final de um tile
-    public int tileSize = originalTileSize * scale;
-    //Quantidade de colunas da tela
-    public final int maxScreenCol = 16;
-    //quantidade de linhas da tela
-    public final int maxScreenRow = 12;
-    // Largura total da tela
-    final int screenWidth = tileSize * maxScreenCol;
-    // Altura total da tela
-    final int screenHeight = tileSize * maxScreenRow;
-
-    // Classe responsável pela leitura de teclas apertadas
-    KeyHandler keyH = new KeyHandler();
-
+    final int originalTileSize = 16;// Tamanho de um tile da tela
+    final int scale = 3;// Escala de multiplicação do tile
+    public int tileSize = originalTileSize * scale;// tamanho final de um tile
+    public final int maxScreenCol = 21;//Quantidade de colunas da tela
+    public final int maxScreenRow = 19;//quantidade de linhas da tela
+    public final int screenWidth = tileSize * maxScreenCol;// Largura total da tela
+    public final int screenHeight = tileSize * maxScreenRow;// Altura total da tela
     Thread gameThread;
-    // Classe responsável pelo gerenciamento dos tiles desenhados na tela
-    TileManager tileM = new TileManager(this);
-    // Classe responsável pelas funcionalidades do player principal
-    Player player = new Player(this, keyH);
-    LevelManager levelManager = new LevelManager(this);
+    TileManager tileM = new TileManager(this);// Classe responsável pelo gerenciamento dos tiles desenhados na tela
 
+    public LevelManager levelManager = new LevelManager(this);// responsavel pelo gerenciamento dos niveis
+    public UiManager uiManager = new UiManager(this);// responsavel pelo gerenciamentos das telas
+    public Som som = new Som();// responsavel pelo som
+    KeyHandler keyH = new KeyHandler(this);// Classe responsável pela leitura de teclas apertadas
+    public Player player = new Player(this, keyH);// Classe responsável pelas funcionalidades do player principal
     // ESTADOS DO JOGO
-    public int gameState = 1;
-    public final int mainMenuState = 0;
+    public final int menuState = 0;
     public final int playState = 1;
     public final int pauseState = 2;
-
+    public final int gameOver = 3;
+    public int gameState = menuState;
     JFrame window;
-    // Classe responsável pela checagem das colisões
-    public ColisionChecker cCHecker = new ColisionChecker(this);
-
-    //FPS
-    int FPS = 60;
-
+    public ColisionChecker cCHecker = new ColisionChecker(this);// Classe responsável pela checagem das colisões
+    int FPS = 60;//FPS
     public Game(JFrame window) {
         this.window = window;
-        // DEFINE O TAMANHO DA TELA
-        this.setPreferredSize(new Dimension(screenWidth, screenHeight));
-        // DEFINE A COR DE FUNDO DA TELA
-        this.setBackground(Color.black);
+        this.setPreferredSize(new Dimension(screenWidth, screenHeight));// DEFINE O TAMANHO DA TELA
+        this.setBackground(Color.black);// DEFINE A COR DE FUNDO DA TELA
         this.setDoubleBuffered(true);
-        // ADICIONA A CLASSE DE CONTROLE DAS TECLAS PRESSIONADAS
-        this.addKeyListener(keyH);
+        this.addKeyListener(keyH);// ADICIONA A CLASSE DE CONTROLE DAS TECLAS PRESSIONADAS
         this.setFocusable(true);
-
-        //DEFINE A FASE
-        setLevel(2);
+        setupGame();//DEFINE AS CONFIGURAÇÕES INICIAIS
     }
 
-    public void resizeWindow(){
-        tileSize = window.getHeight()/maxScreenRow;
+    public void setupGame(){
+        gameState = menuState;
+        uiManager.setTelaAtiva(0);
     }
-
     public void setLevel(int level){
         levelManager.setLevel(level);
         tileM.loadMap(levelManager.getLevelMap());
+        levelManager.getActiveLevel().start();
     }
-
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
     }
-
     @Override
     public void run() {
-
         // CALCULO DA VELOCIDADE DE EXIBIÇÃO DAS AÇOES DOS OBJETOS DO JOGO
         double drawInterval = 1000000000/FPS;
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
-
         while(gameThread != null) {
             currentTime = System.nanoTime();
             delta +=(currentTime-lastTime)/drawInterval;
@@ -95,7 +73,6 @@ public class Game extends JPanel implements Runnable {
                 delta--;
             }
         }
-
     }
 
     public void update() {
@@ -109,15 +86,40 @@ public class Game extends JPanel implements Runnable {
         // DESENHA NA TELA TODOS OS OBJETOS DO JOGO
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
+        if (gameState == menuState) {
+            //UI MENU
+        }
+        Level levelAtual = levelManager.getActiveLevel();
+        if (gameState == playState) {
+            tileM.draw(g2);// DESENHA O MAPA
+            levelManager.getActiveLevel().draw(g2, this);//LEVEL
+            player.draw(g2);// DESENHA O JOGADOR
+            if(levelAtual.contadorLixos == 20){
+                gameState = gameOver;
 
-
-
-        // DESENHA O MAPA
-        tileM.draw(g2);
-        // DESENHA O JOGADOR
-        player.draw(g2);
-        //LEVEL
-        levelManager.getActiveLevel().draw(g2, this);
+            }
+        }
+        if(gameState == gameOver){
+            tileM.draw(g2);// DESENHA O MAPA
+            uiManager.getTelaAtiva().gameOver(g2);
+        }
+        uiManager.draw(g2);
         g2.dispose();
+    }
+
+    public void playMusic(int i) {
+        som.setSom(i);
+        som.setVolume(-10f);
+        som.play();
+        som.loop();
+    }
+
+    public void stopMusic(){
+        som.stop();
+    }
+
+    public void playEffect(int i) {
+        som.setSom(i);
+        som.play();
     }
 }

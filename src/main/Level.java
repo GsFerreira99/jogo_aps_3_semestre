@@ -1,7 +1,6 @@
 package main;
 
-import items.LixoPapel;
-import items.SuperItem;
+import items.*;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -15,18 +14,31 @@ public class Level {
     Game gp;
     Timer timer = new Timer();
 
-    public SuperItem[] items = new SuperItem[20];
+    public SuperItem[] items = new SuperItem[200];
+
+    public String[] itemGenerator = new String[10];
+
+    public int contadorLixos = 0;
 
     public Level(Game gp, int numLevel, String mapFile){
         this.gp = gp;
         this.numLevel = numLevel;
         this.mapFile = mapFile;
-        //novoItem();
+
+        itemGenerator[0] = "Caderno";
+        itemGenerator[1] = "Guardanapo";
+        itemGenerator[2] = "Jornal";
+        itemGenerator[3] = "Revista";
+        itemGenerator[4] = "Papel Higiênico";
+    }
+
+    public void start(){
         criacaoDeLixos();
+        gp.stopMusic();
     }
 
     public void novoItem() {
-        items[0] = new LixoPapel(100,100);
+        items[0] = new PapelHigienico(100,100);
     }
 
     public void criacaoDeLixos() {
@@ -45,20 +57,41 @@ public class Level {
                             break;
                         }
                     }
-                    items[counter] = new LixoPapel((x* gp.tileSize)+ gp.tileSize/4, (y*gp.tileSize)+ gp.tileSize/4);
+                    int num = random.nextInt(0,4);
+                    switch (itemGenerator[num]){
+                        case "Caderno":
+                            items[counter] = new Caderno((x* gp.tileSize)+ gp.tileSize/4, (y*gp.tileSize)+ gp.tileSize/4);
+                            break;
+                        case "Guardanapo":
+                            items[counter] = new Guardanapo((x* gp.tileSize)+ gp.tileSize/4, (y*gp.tileSize)+ gp.tileSize/4);
+                            break;
+                        case "Jornal":
+                            items[counter] = new Jornal((x* gp.tileSize)+ gp.tileSize/4, (y*gp.tileSize)+ gp.tileSize/4);
+                            break;
+                        case "Revista":
+                            items[counter] = new Revista((x* gp.tileSize)+ gp.tileSize/4, (y*gp.tileSize)+ gp.tileSize/4);
+                            break;
+                        case "Papel Higiênico":
+                            items[counter] = new PapelHigienico((x* gp.tileSize)+ gp.tileSize/4, (y*gp.tileSize)+ gp.tileSize/4);
+                            break;
+                    }
                     counter++;
-                }else{System.out.println(items.length);}
-
+                    contadorLixos++;
+                }
             }
         }, 1000, 4000);
     }
 
     public void draw(Graphics2D g2, Game gp) {
-        try{
-            for(SuperItem item: items) {
+        drawItems(g2);
+        gp.uiManager.getTelaAtiva().draw(g2);
+    }
+
+    public void drawItems(Graphics2D g2){
+        for(SuperItem item: items) {
+            if(item!=null){
                 item.draw(g2, gp);
             }
-        }catch (NullPointerException ignored){}
-
+        }
     }
 }
