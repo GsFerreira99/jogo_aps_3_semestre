@@ -36,6 +36,8 @@ public class UiMainWindow extends Ui {
                 gp.gameState = gp.playState;
                 gp.uiManager.setTelaAtiva(1);
                 gp.setLevel(1);
+                gp.player.vida = 5;
+                gp.player.score = 0;
             }
             if (option==1){
                 System.out.println("OPCOES");

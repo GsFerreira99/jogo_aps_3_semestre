@@ -9,7 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Game extends JPanel implements Runnable {
-    final int originalTileSize = 16;// Tamanho de um tile da tela
+    final int originalTileSize = 12;// Tamanho de um tile da tela
     final int scale = 3;// Escala de multiplicação do tile
     public int tileSize = originalTileSize * scale;// tamanho final de um tile
     public final int maxScreenCol = 21;//Quantidade de colunas da tela
@@ -17,7 +17,7 @@ public class Game extends JPanel implements Runnable {
     public final int screenWidth = tileSize * maxScreenCol;// Largura total da tela
     public final int screenHeight = tileSize * maxScreenRow;// Altura total da tela
     Thread gameThread;
-    TileManager tileM = new TileManager(this);// Classe responsável pelo gerenciamento dos tiles desenhados na tela
+    public TileManager tileM = new TileManager(this);// Classe responsável pelo gerenciamento dos tiles desenhados na tela
 
     public LevelManager levelManager = new LevelManager(this);// responsavel pelo gerenciamento dos niveis
     public UiManager uiManager = new UiManager(this);// responsavel pelo gerenciamentos das telas

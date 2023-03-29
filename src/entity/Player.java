@@ -15,18 +15,20 @@ public class Player extends Entity {
     KeyHandler keyH;
     public int score=0;
     public int vida = 5;
+    int recuperaVida = 200;
+    int levelup = 150;
 
     public Player(Game gp, KeyHandler keyH) {
         this.gp = gp;
         this.keyH = keyH;
 
         solidArea = new Rectangle();
-        solidArea.x = 8;
-        solidArea.y = 16;
+        solidArea.x = 4;
+        solidArea.y = 10;
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
-        solidArea.width = 32;
-        solidArea.height = 32;
+        solidArea.width = 20;
+        solidArea.height = 20;
 
         setDefaultValues();
         getPlayerImage();
@@ -149,6 +151,13 @@ public class Player extends Entity {
             gp.levelManager.getActiveLevel().items[i] = null;
             gp.playEffect(4);
             gp.levelManager.getActiveLevel().contadorLixos--;
+            if (score >= recuperaVida){
+                vida++;
+                recuperaVida += levelup;
+                if(levelup <= 400){
+                levelup += 50;
+            }
+            }
         }
     }
 }

@@ -13,6 +13,8 @@ import java.io.IOException;
 public class UiGame extends Ui{
 
     BufferedImage vida, skillSpeed;
+    int temporizador = 0;
+    
 
     public UiGame(Game gp) {
         super(gp);
@@ -49,6 +51,12 @@ public class UiGame extends Ui{
         if(code == KeyEvent.VK_D) {
             rightPressed = true;
         }
+        if(code == KeyEvent.VK_ENTER) {
+            if (gp.gameState == gp.gameOver){
+                gp.uiManager.setTelaAtiva(0);
+                gp.gameState = gp.menuState;
+            }
+        }
     }
 
     @Override
@@ -77,30 +85,40 @@ public class UiGame extends Ui{
         g2.setColor(Color.white);
         setFontSize(20, Color.white, g2);
         drawString(text, x, gp.tileSize-(gp.tileSize/4), g2);
-        vida(g2);
-        skills(g2);
+        tempo(g2);
+        // skills(g2);
     }
 
-    public void vida(Graphics2D g2) {
+    public void tempo(Graphics2D g2) {
         int count = 0;
         for(int i=0;i<gp.player.vida;i++){
             g2.drawImage(vida, gp.tileSize+count, gp.tileSize/4, gp.tileSize-25, gp.tileSize-25, null);
             count+=30;
         }
+        temporizador ++;
+        if (temporizador == 500){
+            gp.player.vida -= 1;
+            temporizador = 0;
+        }
+        if  (gp.player.vida == 0){
+            gp.gameState = gp.gameOver;
+        }
     }
 
     public void gameOver(Graphics2D g2){
+        gp.levelManager.getActiveLevel().items = null;
         setFontSize(60, Color.white, g2);
         drawString("GAME OVER", getCentroTelaText("GAME OVER", g2), (gp.maxScreenRow/2)* gp.tileSize, g2);
         setFontSize(60, Color.red, g2);
         drawString("GAME OVER", getCentroTelaText("GAME OVER", g2)-5, (gp.maxScreenRow/2)* gp.tileSize, g2);
+
     }
 
-    public void skills(Graphics2D g2){
-        drawString("SKILLS: ", gp.tileSize*9, gp.screenHeight-(gp.tileSize*3), g2);
-        g2.drawImage(skillSpeed, gp.tileSize*9+10, gp.screenHeight-(gp.tileSize*3)+20, gp.tileSize, gp.tileSize, null);
-        g2.drawImage(skillSpeed, gp.tileSize*10+10, gp.screenHeight-(gp.tileSize*3)+20, gp.tileSize, gp.tileSize, null);
-        g2.drawImage(skillSpeed, gp.tileSize*11+10, gp.screenHeight-(gp.tileSize*3)+20, gp.tileSize, gp.tileSize, null);
-        g2.drawImage(skillSpeed, gp.tileSize*12+10, gp.screenHeight-(gp.tileSize*3)+20, gp.tileSize, gp.tileSize, null);
-    }
+    // public void skills(Graphics2D g2){
+    //     drawString("SKILLS: ", gp.tileSize*9, gp.screenHeight-(gp.tileSize*3), g2);
+    //     g2.drawImage(skillSpeed, gp.tileSize*9+10, gp.screenHeight-(gp.tileSize*3)+20, gp.tileSize, gp.tileSize, null);
+    //     g2.drawImage(skillSpeed, gp.tileSize*10+10, gp.screenHeight-(gp.tileSize*3)+20, gp.tileSize, gp.tileSize, null);
+    //     g2.drawImage(skillSpeed, gp.tileSize*11+10, gp.screenHeight-(gp.tileSize*3)+20, gp.tileSize, gp.tileSize, null);
+    //     g2.drawImage(skillSpeed, gp.tileSize*12+10, gp.screenHeight-(gp.tileSize*3)+20, gp.tileSize, gp.tileSize, null);
+    // }
 }
