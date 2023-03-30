@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class UiMainWindow extends Ui {
-
+    
     public UiMainWindow(Game gp) {
         super(gp);
     }
@@ -38,6 +38,7 @@ public class UiMainWindow extends Ui {
                 gp.setLevel(1);
                 gp.player.vida = 5;
                 gp.player.score = 0;
+                
             }
             if (option==1){
                 System.out.println("OPCOES");
@@ -69,6 +70,14 @@ public class UiMainWindow extends Ui {
         drawString(text, getCentroTelaText(text, g2), y, g2);
         setFontSize(60, Color.white, g2);
         drawString(text, getCentroTelaText(text, g2)-5, y, g2);
+
+        //RECORD
+        String strRecord = "Record: " + gp.record;
+        y = 300;
+        setFontSize(60, Color.gray, g2);
+        drawString(strRecord, getCentroTelaText(strRecord, g2), y, g2);
+        setFontSize(60, Color.white, g2);
+        drawString(strRecord, getCentroTelaText(strRecord, g2)-5, y, g2);
 
         //MENU
         menu[0] = "NOVO JOGO";

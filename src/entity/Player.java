@@ -15,8 +15,8 @@ public class Player extends Entity {
     KeyHandler keyH;
     public int score=0;
     public int vida = 5;
-    int recuperaVida = 200;
-    int levelup = 150;
+    int recuperaTempo = 200;
+    int levelup = 50;
 
     public Player(Game gp, KeyHandler keyH) {
         this.gp = gp;
@@ -151,11 +151,11 @@ public class Player extends Entity {
             gp.levelManager.getActiveLevel().items[i] = null;
             gp.playEffect(4);
             gp.levelManager.getActiveLevel().contadorLixos--;
-            if (score >= recuperaVida){
+            if (score >= recuperaTempo){
                 vida++;
-                recuperaVida += levelup;
-                if(levelup <= 400){
-                levelup += 50;
+                recuperaTempo += levelup;
+                if(levelup <= 300){
+                levelup += 25;
             }
             }
         }

@@ -79,7 +79,7 @@ public class Level {
                     contadorLixos++;
                 }
             }
-        }, 1000, 4000);
+        }, 1000, 2000);
     }
 
     public void draw(Graphics2D g2, Game gp) {

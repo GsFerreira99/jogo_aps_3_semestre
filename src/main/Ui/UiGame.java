@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class UiGame extends Ui{
 
-    BufferedImage vida, skillSpeed;
+    BufferedImage tempo, skillSpeed;
     int temporizador = 0;
     
 
@@ -28,7 +28,7 @@ public class UiGame extends Ui{
 
     public void definirImagens(){
         try{
-            vida = ImageIO.read(new FileInputStream("res/player/vida.png"));
+            tempo = ImageIO.read(new FileInputStream("res/player/Tempo.png"));
             skillSpeed = ImageIO.read(new FileInputStream("res/interface/skill_speed.png"));
         }catch (IOException e) {
             throw new RuntimeException(e);
@@ -92,7 +92,7 @@ public class UiGame extends Ui{
     public void tempo(Graphics2D g2) {
         int count = 0;
         for(int i=0;i<gp.player.vida;i++){
-            g2.drawImage(vida, gp.tileSize+count, gp.tileSize/4, gp.tileSize-25, gp.tileSize-25, null);
+            g2.drawImage(tempo, gp.tileSize+count, gp.tileSize/4, gp.tileSize-25, gp.tileSize-25, null);
             count+=30;
         }
         temporizador ++;
@@ -106,12 +106,14 @@ public class UiGame extends Ui{
     }
 
     public void gameOver(Graphics2D g2){
-        gp.levelManager.getActiveLevel().items = null;
         setFontSize(60, Color.white, g2);
         drawString("GAME OVER", getCentroTelaText("GAME OVER", g2), (gp.maxScreenRow/2)* gp.tileSize, g2);
         setFontSize(60, Color.red, g2);
         drawString("GAME OVER", getCentroTelaText("GAME OVER", g2)-5, (gp.maxScreenRow/2)* gp.tileSize, g2);
-
+        for (int t = 0; t < 200; t++) { gp.levelManager.getActiveLevel().items[t] = null;}
+        if (gp.player.score > gp.record){
+            gp.record = gp.player.score;
+        }
     }
 
     // public void skills(Graphics2D g2){

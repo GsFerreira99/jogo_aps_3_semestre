@@ -16,6 +16,7 @@ public class Game extends JPanel implements Runnable {
     public final int maxScreenRow = 19;//quantidade de linhas da tela
     public final int screenWidth = tileSize * maxScreenCol;// Largura total da tela
     public final int screenHeight = tileSize * maxScreenRow;// Altura total da tela
+    public int record = 0;
     Thread gameThread;
     public TileManager tileM = new TileManager(this);// Classe responsável pelo gerenciamento dos tiles desenhados na tela
 
