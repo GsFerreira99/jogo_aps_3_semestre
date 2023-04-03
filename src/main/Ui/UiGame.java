@@ -80,7 +80,7 @@ public class UiGame extends Ui{
 
     public void draw(Graphics2D g2) {
         String text = "SCORE: "+ gp.player.score;
-        int x = (gp.maxScreenCol-3)*gp.tileSize;
+        int x = (gp.maxScreenCol-4)*gp.tileSize;
         g2.setFont(gameFont);
         g2.setColor(Color.white);
         setFontSize(20, Color.white, g2);
@@ -91,16 +91,16 @@ public class UiGame extends Ui{
 
     public void tempo(Graphics2D g2) {
         int count = 0;
-        for(int i=0;i<gp.player.vida;i++){
+        for(int i=0;i<gp.player.tempo;i++){
             g2.drawImage(tempo, gp.tileSize+count, gp.tileSize/4, gp.tileSize-25, gp.tileSize-25, null);
             count+=30;
         }
         temporizador ++;
         if (temporizador == 500){
-            gp.player.vida -= 1;
+            gp.player.tempo -= 1;
             temporizador = 0;
         }
-        if  (gp.player.vida == 0){
+        if  (gp.player.tempo == 0){
             gp.gameState = gp.gameOver;
         }
     }
@@ -110,10 +110,10 @@ public class UiGame extends Ui{
         drawString("GAME OVER", getCentroTelaText("GAME OVER", g2), (gp.maxScreenRow/2)* gp.tileSize, g2);
         setFontSize(60, Color.red, g2);
         drawString("GAME OVER", getCentroTelaText("GAME OVER", g2)-5, (gp.maxScreenRow/2)* gp.tileSize, g2);
-        for (int t = 0; t < 200; t++) { gp.levelManager.getActiveLevel().items[t] = null;}
         if (gp.player.score > gp.record){
             gp.record = gp.player.score;
         }
+        gp.levelManager.getActiveLevel().finish();
     }
 
     // public void skills(Graphics2D g2){

@@ -18,6 +18,8 @@ public class LevelManager {
 
     public void setLevel(int level){
         levelActive = level;
+        
+        gp.gameState = gp.playState;
     }
 
     public String getLevelMap() {

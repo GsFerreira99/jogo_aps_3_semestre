@@ -12,14 +12,14 @@ public class Level {
     int numLevel;
     String mapFile;
     Game gp;
-    Timer timer = new Timer();
+    
 
     public SuperItem[] items = new SuperItem[200];
 
     public String[] itemGenerator = new String[10];
 
     public int contadorLixos = 0;
-
+    Timer timer;
     public Level(Game gp, int numLevel, String mapFile){
         this.gp = gp;
         this.numLevel = numLevel;
@@ -33,8 +33,20 @@ public class Level {
     }
 
     public void start(){
+        gp.player.tempo = 5;
+        gp.player.score = 0;
+        gp.player.recuperaTempo = 100;
+        gp.player.levelup = 50;
+        timer = new Timer();
         criacaoDeLixos();
         gp.stopMusic();
+    }
+
+    public void finish(){
+        for (int t = 0; t < items.length; t++) {items[t] = null;}
+        contadorLixos = 0;
+        timer.cancel();
+
     }
 
     public void novoItem() {
@@ -58,6 +70,7 @@ public class Level {
                         }
                     }
                     int num = random.nextInt(0,4);
+                    
                     switch (itemGenerator[num]){
                         case "Caderno":
                             items[counter] = new Caderno((x* gp.tileSize)+ gp.tileSize/4, (y*gp.tileSize)+ gp.tileSize/4);
@@ -75,11 +88,12 @@ public class Level {
                             items[counter] = new PapelHigienico((x* gp.tileSize)+ gp.tileSize/4, (y*gp.tileSize)+ gp.tileSize/4);
                             break;
                     }
+                    System.out.println(items[counter]);
                     counter++;
                     contadorLixos++;
                 }
             }
-        }, 1000, 2000);
+        }, 2000, 2000);
     }
 
     public void draw(Graphics2D g2, Game gp) {
