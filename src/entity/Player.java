@@ -14,20 +14,21 @@ public class Player extends Entity {
     Game gp;
     KeyHandler keyH;
     public int score=0;
+    public int tempo = 5;
+    public int recuperaTempo = 100;
+    public int levelup = 50;
 
     public Player(Game gp, KeyHandler keyH) {
         this.gp = gp;
         this.keyH = keyH;
 
         solidArea = new Rectangle();
-        solidArea.x = 8;
-        solidArea.y = 16;
+        solidArea.x = 4;
+        solidArea.y = 10;
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
-        solidArea.width = 32;
-        solidArea.height = 32;
-
-        int vida = 3;
+        solidArea.width = 20;
+        solidArea.height = 20;
 
         setDefaultValues();
         getPlayerImage();
@@ -35,7 +36,7 @@ public class Player extends Entity {
 
     public void setDefaultValues() {
         x=100;
-        y= gp.tileSize-4;
+        y= (gp.tileSize*2)-4;
         speed=2;
         direction = "down";
     }
@@ -141,7 +142,7 @@ public class Player extends Entity {
 
         }
 
-        g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
+        g2.drawImage(image, x, y, gp.tileSize-10, gp.tileSize-10, null);
     }
 
     public void pegarLixo(int i){
@@ -150,6 +151,13 @@ public class Player extends Entity {
             gp.levelManager.getActiveLevel().items[i] = null;
             gp.playEffect(4);
             gp.levelManager.getActiveLevel().contadorLixos--;
+            if (score >= recuperaTempo){
+                tempo++;
+                recuperaTempo += levelup;
+                if(levelup <= 300){
+                levelup += 25;
+            }
+            }
         }
     }
 }

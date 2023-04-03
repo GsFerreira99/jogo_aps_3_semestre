@@ -9,16 +9,18 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Game extends JPanel implements Runnable {
-    final int originalTileSize = 16;// Tamanho de um tile da tela
+    final int originalTileSize = 12;// Tamanho de um tile da tela
     final int scale = 3;// Escala de multiplicação do tile
     public int tileSize = originalTileSize * scale;// tamanho final de um tile
     public final int maxScreenCol = 21;//Quantidade de colunas da tela
     public final int maxScreenRow = 19;//quantidade de linhas da tela
     public final int screenWidth = tileSize * maxScreenCol;// Largura total da tela
     public final int screenHeight = tileSize * maxScreenRow;// Altura total da tela
+    public int record = 0;
     Thread gameThread;
-    TileManager tileM = new TileManager(this);// Classe responsável pelo gerenciamento dos tiles desenhados na tela
-
+    public TileManager tileM = new TileManager(this);// Classe responsável pelo gerenciamento dos tiles desenhados na tela
+    int AtimeRuninng = 0;
+    int timeRuninng = 0;
     public LevelManager levelManager = new LevelManager(this);// responsavel pelo gerenciamento dos niveis
     public UiManager uiManager = new UiManager(this);// responsavel pelo gerenciamentos das telas
     public Som som = new Som();// responsavel pelo som
@@ -76,9 +78,17 @@ public class Game extends JPanel implements Runnable {
     }
 
     public void update() {
+        if(AtimeRuninng == 60){
+            AtimeRuninng = 0;
+            timeRuninng ++;
+            System.out.println(timeRuninng);
+            
+        }
+        AtimeRuninng ++;
         // RESPONSÁVEL PELA MOVIMENTAÇÃO DO JOGADOR
         if (gameState == playState) {
             player.update();
+            // System.out.println(levelManager.getActiveLevel().contadorLixos);
         }
     }
 
@@ -94,10 +104,7 @@ public class Game extends JPanel implements Runnable {
             tileM.draw(g2);// DESENHA O MAPA
             levelManager.getActiveLevel().draw(g2, this);//LEVEL
             player.draw(g2);// DESENHA O JOGADOR
-            if(levelAtual.contadorLixos == 20){
-                gameState = gameOver;
-
-            }
+            
         }
         if(gameState == gameOver){
             tileM.draw(g2);// DESENHA O MAPA

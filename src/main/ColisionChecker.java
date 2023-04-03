@@ -19,10 +19,10 @@ public class ColisionChecker {
         int entityBottomWorldY = entity.y + entity.solidArea.y + entity.solidArea.height;
 
         // DEFINE AS BORDAS DO BLOCO DE COLISÃO DO JOGADOR
-        int entityLeftCol = entityLeftWorldX/gp.tileSize;
-        int entityRightCol = entityRightWorldX/gp.tileSize;
-        int entityTopRow = entityTopWorldY/gp.tileSize;
-        int entityBottomRow = entityBottomWorldY/gp.tileSize;
+        int entityLeftCol = entityLeftWorldX/(gp.tileSize);
+        int entityRightCol = entityRightWorldX/(gp.tileSize);
+        int entityTopRow = entityTopWorldY/(gp.tileSize);
+        int entityBottomRow = entityBottomWorldY/(gp.tileSize);
 
         int tileNum1, tileNum2;
 

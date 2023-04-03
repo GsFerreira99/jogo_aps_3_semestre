@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class UiMainWindow extends Ui {
-
+    
     public UiMainWindow(Game gp) {
         super(gp);
     }
@@ -15,7 +15,7 @@ public class UiMainWindow extends Ui {
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();// CAPTURA O BOTÃO PRESSIONADO
 
-        if(code == KeyEvent.VK_W) {
+        if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
             if (option>0){
                 option--;
             }else{
@@ -23,7 +23,7 @@ public class UiMainWindow extends Ui {
             }
             gp.playEffect(0);
         }
-        if(code == KeyEvent.VK_S) {
+        if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
             if (option==menu.length-1){
                 option=0;
             }else{
@@ -35,7 +35,8 @@ public class UiMainWindow extends Ui {
             if (option==0){
                 gp.gameState = gp.playState;
                 gp.uiManager.setTelaAtiva(1);
-                gp.setLevel(1);
+                gp.setLevel(1);   
+                                           
             }
             if (option==1){
                 System.out.println("OPCOES");
@@ -67,6 +68,14 @@ public class UiMainWindow extends Ui {
         drawString(text, getCentroTelaText(text, g2), y, g2);
         setFontSize(60, Color.white, g2);
         drawString(text, getCentroTelaText(text, g2)-5, y, g2);
+
+        //RECORD
+        String strRecord = "Record: " + gp.record;
+        y = 300;
+        setFontSize(60, Color.gray, g2);
+        drawString(strRecord, getCentroTelaText(strRecord, g2), y, g2);
+        setFontSize(60, Color.white, g2);
+        drawString(strRecord, getCentroTelaText(strRecord, g2)-5, y, g2);
 
         //MENU
         menu[0] = "NOVO JOGO";
