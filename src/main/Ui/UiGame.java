@@ -39,16 +39,16 @@ public class UiGame extends Ui{
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();// CAPTURA O BOTÃO PRESSIONADO
         // ESTRUTURA DE CONTROLE PARA DEFINIR QUAL BOTÃO FOI PRESSIONADO
-        if(code == KeyEvent.VK_W) {
+        if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
             upPressed = true;
         }
-        if(code == KeyEvent.VK_S) {
+        if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
             downPressed = true;
         }
-        if(code == KeyEvent.VK_A) {
+        if(code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) {
             leftPressed = true;
         }
-        if(code == KeyEvent.VK_D) {
+        if(code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) {
             rightPressed = true;
         }
         if(code == KeyEvent.VK_ENTER) {
@@ -64,16 +64,16 @@ public class UiGame extends Ui{
         int code = e.getKeyCode();// CAPTURA QUAL BOTÃO FOI SOLTO
 
         // ESTRUTURA DE CONTROLE PARA DEFINIR QUAL BOTÃO FOI SOLTO
-        if(code == KeyEvent.VK_W) {
+        if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
             upPressed = false;
         }
-        if(code == KeyEvent.VK_S) {
+        if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
             downPressed = false;
         }
-        if(code == KeyEvent.VK_A) {
+        if(code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) {
             leftPressed = false;
         }
-        if(code == KeyEvent.VK_D) {
+        if(code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) {
             rightPressed = false;
         }
     }

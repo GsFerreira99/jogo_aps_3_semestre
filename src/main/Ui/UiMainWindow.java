@@ -15,7 +15,7 @@ public class UiMainWindow extends Ui {
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();// CAPTURA O BOTÃO PRESSIONADO
 
-        if(code == KeyEvent.VK_W) {
+        if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
             if (option>0){
                 option--;
             }else{
@@ -23,7 +23,7 @@ public class UiMainWindow extends Ui {
             }
             gp.playEffect(0);
         }
-        if(code == KeyEvent.VK_S) {
+        if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
             if (option==menu.length-1){
                 option=0;
             }else{
