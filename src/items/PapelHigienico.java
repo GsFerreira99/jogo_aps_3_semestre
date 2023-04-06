@@ -4,7 +4,7 @@ import javax.imageio.ImageIO;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-public class PapelHigienico extends SuperItem{
+public class PapelHigienico extends Item{
     public PapelHigienico(int worldX, int worldY) {
         super(worldX, worldY);
         this.score = 20;

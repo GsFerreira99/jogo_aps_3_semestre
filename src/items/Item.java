@@ -5,7 +5,7 @@ import main.Game;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class SuperItem {
+public class Item {
     public BufferedImage image;
     public String name;
     public boolean colision = false;
@@ -13,12 +13,13 @@ public class SuperItem {
     public Rectangle solidArea = new Rectangle(0,0,48/2,48/2);
     public  int solidAreaDefaultX = 0;
     public  int solidAreaDefaultY = 0;
+    public Boolean superItem = false;
 
     public int score = 0;
 
     public boolean primeiraExibicao = true;
 
-    public SuperItem(int worldX, int worldY) {
+    public Item(int worldX, int worldY) {
         this.worldX = worldX;
         this.worldY = worldY;
     }

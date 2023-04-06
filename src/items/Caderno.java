@@ -4,7 +4,7 @@ import javax.imageio.ImageIO;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-public class Caderno extends SuperItem{
+public class Caderno extends Item{
     public Caderno(int worldX, int worldY) {
         super(worldX, worldY);
         this.score = 40;

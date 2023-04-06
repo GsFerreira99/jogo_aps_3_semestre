@@ -14,7 +14,7 @@ public class Level {
     Game gp;
     
 
-    public SuperItem[] items = new SuperItem[200];
+    public Item[] items = new Item[200];
 
     public String[] itemGenerator = new String[10];
 
@@ -30,6 +30,7 @@ public class Level {
         itemGenerator[2] = "Jornal";
         itemGenerator[3] = "Revista";
         itemGenerator[4] = "Papel Higiênico";
+        itemGenerator[5] = "Carro do Lixo";
     }
 
     public void start(){
@@ -69,7 +70,7 @@ public class Level {
                             break;
                         }
                     }
-                    int num = random.nextInt(0,4);
+                    int num = random.nextInt(0,6);
                     
                     switch (itemGenerator[num]){
                         case "Caderno":
@@ -87,6 +88,9 @@ public class Level {
                         case "Papel Higiênico":
                             items[counter] = new PapelHigienico((x* gp.tileSize)+ gp.tileSize/4, (y*gp.tileSize)+ gp.tileSize/4);
                             break;
+                        case "Carro do Lixo":
+                            items[counter] = new CarroLixo((x* gp.tileSize)+ gp.tileSize/4, (y*gp.tileSize)+ gp.tileSize/4);
+                            break;
                     }
                     System.out.println(items[counter]);
                     counter++;
@@ -102,7 +106,7 @@ public class Level {
     }
 
     public void drawItems(Graphics2D g2){
-        for(SuperItem item: items) {
+        for(Item item: items) {
             if(item!=null){
                 item.draw(g2, gp);
             }
