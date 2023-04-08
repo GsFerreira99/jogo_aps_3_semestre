@@ -35,6 +35,7 @@ public class TileManager {
             tile[10] = new Tile(ImageIO.read(new FileInputStream("res/tiles/rua_top_mid.png")), false);
             tile[11] = new Tile(ImageIO.read(new FileInputStream("res/tiles/rua_top_right.png")), false);
             tile[12] = new Tile(ImageIO.read(new FileInputStream("res/tiles/space.png")), true);
+            tile[13] = new Tile(ImageIO.read(new FileInputStream("res/tiles/predio.png")), true);
         } catch (IOException e){e.printStackTrace();}
     }
 

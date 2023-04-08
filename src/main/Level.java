@@ -34,6 +34,10 @@ public class Level {
     }
 
     public void start(){
+        if(gp.player.activeItem != null){
+            gp.player.activeItem.deactiveEffect(gp);
+        }
+        
         gp.player.tempo = 5;
         gp.player.score = 0;
         gp.player.recuperaTempo = 100;
@@ -70,8 +74,18 @@ public class Level {
                             break;
                         }
                     }
-                    int num = random.nextInt(0,6);
-                    
+                    int num = random.nextInt(6); // Escolha um número entre 0 e 6
+                    // Ajusta a probabilidade de cair 6 para 1/10 (10%)
+                    System.out.println(num);
+                    if (num == 5) {
+                        int newNum = random.nextInt(3);
+                        if (newNum != 0) { // Probabilidade de 1 em 10
+                            num = random.nextInt(3); // Escolha um número entre 0 e 5
+                            System.out.println(num);
+                        }
+                        
+                    }
+                                
                     switch (itemGenerator[num]){
                         case "Caderno":
                             items[counter] = new Caderno((x* gp.tileSize)+ gp.tileSize/4, (y*gp.tileSize)+ gp.tileSize/4);

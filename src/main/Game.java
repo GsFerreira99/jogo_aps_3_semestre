@@ -81,7 +81,7 @@ public class Game extends JPanel implements Runnable {
         if(AtimeRuninng == 60){
             AtimeRuninng = 0;
             timeRuninng ++;
-            System.out.println(timeRuninng);
+            // System.out.println(timeRuninng);
             
         }
         AtimeRuninng ++;
