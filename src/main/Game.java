@@ -20,7 +20,7 @@ public class Game extends JPanel implements Runnable {
     Thread gameThread;
     public TileManager tileM = new TileManager(this);// Classe responsável pelo gerenciamento dos tiles desenhados na tela
     int AtimeRuninng = 0;
-    int timeRuninng = 0;
+    public int timeRuninng = 0;
     public LevelManager levelManager = new LevelManager(this);// responsavel pelo gerenciamento dos niveis
     public UiManager uiManager = new UiManager(this);// responsavel pelo gerenciamentos das telas
     public Som som = new Som();// responsavel pelo som
@@ -81,7 +81,7 @@ public class Game extends JPanel implements Runnable {
         if(AtimeRuninng == 60){
             AtimeRuninng = 0;
             timeRuninng ++;
-            System.out.println(timeRuninng);
+            // System.out.println(timeRuninng);
             
         }
         AtimeRuninng ++;

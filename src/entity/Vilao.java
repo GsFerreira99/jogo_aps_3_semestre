@@ -1,46 +1,34 @@
 package entity;
 import main.Game;
-import main.KeyHandler;
-import main.Ui.Ui;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.IOException;
-import items.Item;
 
-
-public class Player extends Entity {
+public class Vilao extends Entity {
 
     Game gp;
-    KeyHandler keyH;
-    public int score=0;
-    public int tempo = 5;
-    public int recuperaTempo = 100;
-    public int levelup = 50;
-    public Item activeItem = null;
-
-    public Player(Game gp, KeyHandler keyH) {
+   
+    public Vilao(Game gp) {
         this.gp = gp;
-        this.keyH = keyH;
 
         solidArea = new Rectangle();
-        solidArea.x = 4;
-        solidArea.y = 10;
+        solidArea.x = 8;
+        solidArea.y = 16;
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
-        solidArea.width = 20;
-        solidArea.height = 20;
+        solidArea.width = 32;
+        solidArea.height = 32;
 
         setDefaultValues();
         getPlayerImage();
     }
 
     public void setDefaultValues() {
-        x=100;
-        y= (gp.tileSize*2)-4;
-        speed=2;
+        x= (gp.tileSize*13)-4;
+        y= (gp.tileSize*9)-4;
+        speed=1;
         direction = "down";
     }
 
@@ -59,29 +47,21 @@ public class Player extends Entity {
         }
     }
 
-    public void update(){
-        Ui keyH = gp.uiManager.getTelaAtiva();
-
-        if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
-            if(keyH.upPressed) {
+    public void update(Player player){
+        if (x != player.x || y != player.y) {
+            if(y > player.y) {
                 direction = "up";
-            }else if(keyH.downPressed) {
+            }else if(y < player.y) {
                 direction = "down";
-            }else if(keyH.leftPressed) {
+            }else if(x > player.x) {
                 direction = "left";
-            }else if(keyH.rightPressed) {
+            }else if(x < player.x) {
                 direction = "right";
             }
 
             // CHECAGEM DE COLISÃO
             colisionOn = false;
             gp.cCHecker.checkTile(this);
-
-            //CHECAGEM DE COLISÃO COM OBJETOS
-            int objIndex = gp.cCHecker.checkObject(this, 
-            true);
-
-            pegarLixo(objIndex);
 
             // SE COLISÃO FOR 'false' SE MOVER
             if(!colisionOn) {
@@ -104,17 +84,8 @@ public class Player extends Entity {
             }
 
         }
-        if (activeItem != null){
-           activeItem.countTimeEffect++;
-           if (activeItem.countTimeEffect == 60){
-                activeItem.timeEffect --;
-                activeItem.countTimeEffect = 0;
-                if (activeItem.timeEffect == 0){
-                    activeItem.deactiveEffect(gp);
-                }
-           }
-        }
-        
+
+
     }
     public void draw(Graphics2D g2) {
 
@@ -155,15 +126,6 @@ public class Player extends Entity {
 
         }
 
-        g2.drawImage(image, x, y, gp.tileSize-5, gp.tileSize-5, null);
-    }
-
-    public void pegarLixo(int i){
-        if(i!=999){
-            Item item = gp.levelManager.getActiveLevel().items[i];
-            item.effect(gp);
-            gp.levelManager.getActiveLevel().items[i] = null;
-            
-        }
+        g2.drawImage(image, x, y, gp.tileSize-10, gp.tileSize-10, null);
     }
 }

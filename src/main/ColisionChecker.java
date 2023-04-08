@@ -1,7 +1,7 @@
 package main;
 
 import entity.Entity;
-import items.SuperItem;
+import items.Item;
 
 public class ColisionChecker {
 
@@ -65,7 +65,7 @@ public class ColisionChecker {
 
     public int checkObject(Entity entity, boolean player) {
         int index = 999;
-        SuperItem[] items = gp.levelManager.getActiveLevel().items;
+        Item[] items = gp.levelManager.getActiveLevel().items;
         for(int i=0; i<items.length; i++){
             if (items[i] != null){
                 entity.solidArea.x = entity.x + entity.solidArea.x;

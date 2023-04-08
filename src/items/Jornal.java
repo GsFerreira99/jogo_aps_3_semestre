@@ -4,7 +4,7 @@ import javax.imageio.ImageIO;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-public class Jornal extends SuperItem{
+public class Jornal extends Item{
     public Jornal(int worldX, int worldY) {
         super(worldX, worldY);
         this.score = 80;

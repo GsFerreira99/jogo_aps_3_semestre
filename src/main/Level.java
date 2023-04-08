@@ -14,7 +14,7 @@ public class Level {
     Game gp;
     
 
-    public SuperItem[] items = new SuperItem[200];
+    public Item[] items = new Item[200];
 
     public String[] itemGenerator = new String[10];
 
@@ -30,9 +30,14 @@ public class Level {
         itemGenerator[2] = "Jornal";
         itemGenerator[3] = "Revista";
         itemGenerator[4] = "Papel Higiênico";
+        itemGenerator[5] = "Carro do Lixo";
     }
 
     public void start(){
+        if(gp.player.activeItem != null){
+            gp.player.activeItem.deactiveEffect(gp);
+        }
+        
         gp.player.tempo = 5;
         gp.player.score = 0;
         gp.player.recuperaTempo = 100;
@@ -69,8 +74,18 @@ public class Level {
                             break;
                         }
                     }
-                    int num = random.nextInt(0,4);
-                    
+                    int num = random.nextInt(6); // Escolha um número entre 0 e 6
+                    // Ajusta a probabilidade de cair 6 para 1/10 (10%)
+                    System.out.println(num);
+                    if (num == 5) {
+                        int newNum = random.nextInt(3);
+                        if (newNum != 0) { // Probabilidade de 1 em 10
+                            num = random.nextInt(3); // Escolha um número entre 0 e 5
+                            System.out.println(num);
+                        }
+                        
+                    }
+                                
                     switch (itemGenerator[num]){
                         case "Caderno":
                             items[counter] = new Caderno((x* gp.tileSize)+ gp.tileSize/4, (y*gp.tileSize)+ gp.tileSize/4);
@@ -87,6 +102,9 @@ public class Level {
                         case "Papel Higiênico":
                             items[counter] = new PapelHigienico((x* gp.tileSize)+ gp.tileSize/4, (y*gp.tileSize)+ gp.tileSize/4);
                             break;
+                        case "Carro do Lixo":
+                            items[counter] = new CarroLixo((x* gp.tileSize)+ gp.tileSize/4, (y*gp.tileSize)+ gp.tileSize/4);
+                            break;
                     }
                     System.out.println(items[counter]);
                     counter++;
@@ -102,7 +120,7 @@ public class Level {
     }
 
     public void drawItems(Graphics2D g2){
-        for(SuperItem item: items) {
+        for(Item item: items) {
             if(item!=null){
                 item.draw(g2, gp);
             }
