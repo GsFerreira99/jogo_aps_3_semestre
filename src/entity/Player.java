@@ -20,7 +20,7 @@ public class Player extends Entity {
     public int recuperaTempo = 100;
     public int levelup = 50;
     public Item activeItem = null;
-
+    BufferedImage image = null;
     public Player(Game gp, KeyHandler keyH) {
         this.gp = gp;
         this.keyH = keyH;
@@ -40,6 +40,8 @@ public class Player extends Entity {
     public void setDefaultValues() {
         x=100;
         y= (gp.tileSize*2)-4;
+        largura = gp.tileSize-5;
+        altura = gp.tileSize-5;
         speed=2;
         direction = "down";
     }
@@ -118,7 +120,7 @@ public class Player extends Entity {
     }
     public void draw(Graphics2D g2) {
 
-        BufferedImage image = null;
+        
         switch (direction) {
             case "up" -> {
                 if (spriteNum == 1) {
@@ -127,6 +129,7 @@ public class Player extends Entity {
                 if (spriteNum == 2) {
                     image = up2;
                 }
+                
             }
             case "down" -> {
                 if (spriteNum == 1) {
@@ -155,7 +158,7 @@ public class Player extends Entity {
 
         }
 
-        g2.drawImage(image, x, y, gp.tileSize-5, gp.tileSize-5, null);
+        g2.drawImage(image, x, y, largura, altura, null);
     }
 
     public void pegarLixo(int i){

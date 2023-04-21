@@ -3,6 +3,7 @@ import javax.imageio.ImageIO;
 
 import main.Game;
 
+import java.awt.Graphics2D;
 import java.io.FileInputStream;
 import java.io.IOException;
 
@@ -13,14 +14,32 @@ public class CarroLixo extends Item{
         countTimeEffect = 0;
         name = "Carro do Lixo";
         try {
-            image = ImageIO.read(new FileInputStream("res/items/boy_up_1.png"));
+            image = ImageIO.read(new FileInputStream("res/items/caminhao/caminhao_left_1.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+    public void getCaminhaoImage(Game gp) {
+        try{
+            gp.player.up1 = ImageIO.read(new FileInputStream("res/items/caminhao/caminhao_front.png"));
+            gp.player.up2 = ImageIO.read(new FileInputStream("res/items/caminhao/caminhao_front.png"));
+            gp.player.down1 = ImageIO.read(new FileInputStream("res/items/caminhao/caminhao_back.png"));
+            gp.player.down2 = ImageIO.read(new FileInputStream("res/items/caminhao/caminhao_back.png"));
+            gp.player.left1 = ImageIO.read(new FileInputStream("res/items/caminhao/caminhao_left_1.png"));
+            gp.player.left2 = ImageIO.read(new FileInputStream("res/items/caminhao/caminhao_left_2.png"));
+            gp.player.right1 = ImageIO.read(new FileInputStream("res/items/caminhao/caminhao_right_1.png"));
+            gp.player.right2 = ImageIO.read(new FileInputStream("res/items/caminhao/caminhao_right_2.png"));
+            gp.player.altura = gp.tileSize;
+            gp.player.largura = gp.tileSize;
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
 
     public void effect(Game gp){
         if (gp.player.activeItem == null){
+            getCaminhaoImage(gp);
             gp.player.activeItem = this;
             gp.playEffect(4);
             gp.player.speed = gp.player.speed*2;
@@ -33,4 +52,9 @@ public class CarroLixo extends Item{
         gp.player.speed = 2;
         gp.player.activeItem = null;
     }
+
+    public void draw(Graphics2D g2, Game gp) {
+        g2.drawImage(image, worldX, worldY, gp.tileSize, gp.tileSize, null);
+    }
+
 }
