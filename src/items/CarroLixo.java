@@ -41,7 +41,9 @@ public class CarroLixo extends Item{
         if (gp.player.activeItem == null){
             getCaminhaoImage(gp);
             gp.player.activeItem = this;
-            gp.playEffect(4, -15f);
+            gp.player.som = 6;
+            gp.player.somVolume = -20f;
+            gp.playEffect(5, -10f);
             gp.player.speed = gp.player.speed*2;
             this.timeEffect = 10;
         }else if (gp.player.activeItem.name == name) {
@@ -51,6 +53,8 @@ public class CarroLixo extends Item{
     public void deactiveEffect(Game gp){
         gp.player.getPlayerImage();
         gp.player.speed = 2;
+        gp.player.som = 3;
+        gp.player.somVolume = -35f;
         gp.player.activeItem = null;
     }
 

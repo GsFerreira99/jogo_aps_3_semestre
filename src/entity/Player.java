@@ -20,6 +20,8 @@ public class Player extends Entity {
     public int recuperaTempo = 100;
     public int levelup = 50;
     public Item activeItem = null;
+    public int som = 3;
+    public float somVolume = -35f;
 
     public Player(Game gp, KeyHandler keyH) {
         this.gp = gp;
@@ -98,7 +100,7 @@ public class Player extends Entity {
             spriteCounter++;
             if(spriteCounter > 10) {
                 if (spriteNum == 1) {
-                    gp.playEffect(3, -35f);
+                    gp.playEffect(som, somVolume);
                     spriteNum = 2;
                 } else if (spriteNum == 2) {
                     spriteNum=1;

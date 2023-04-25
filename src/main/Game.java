@@ -48,7 +48,7 @@ public class Game extends JPanel implements Runnable {
     public void setupGame(){
         gameState = menuState;
         uiManager.setTelaAtiva(0);
-        playMusic(1, -30f);
+        playMusic(1, -25f);
         
     }
     public void setLevel(int level){
