@@ -1,16 +1,31 @@
 package main.Ui;
 
 import main.Game;
-
+import main.Som;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class UiMainWindow extends Ui {
-    
+    Som som = new Som();
     public UiMainWindow(Game gp) {
         super(gp);
     }
+    public void playMusic(int i, float v) {
+        som.setSom(i);
+        som.setVolume(v);
+        som.play();
+        som.loop();
+    }
 
+    public void stopMusic(){
+        som.stop();
+    }
+
+    public void playEffect(int i, float v) {
+        som.setSom(i);
+        som.play();
+        som.setVolume(v);
+    }
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();// CAPTURA O BOTÃO PRESSIONADO
@@ -21,7 +36,7 @@ public class UiMainWindow extends Ui {
             }else{
                 option=menu.length-1;
             }
-            gp.playEffect(0);
+            playEffect(0, -8f);
         }
         if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
             if (option==menu.length-1){
@@ -29,7 +44,7 @@ public class UiMainWindow extends Ui {
             }else{
                 option++;
             }
-            gp.playEffect(0);
+            playEffect(0, -8f);
         }
         if(code==KeyEvent.VK_ENTER){
             if (option==0){
@@ -45,7 +60,7 @@ public class UiMainWindow extends Ui {
                 gp.setVisible(false);
                 System.exit(0);
             }
-            gp.playEffect(0);
+            
         }
     }
 

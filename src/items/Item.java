@@ -22,7 +22,7 @@ public class Item {
     public boolean primeiraExibicao = true;
     public void effect(Game gp){
         gp.player.score+= this.score;
-        gp.playEffect(4);
+        gp.playEffect(4, -15f);
         gp.levelManager.getActiveLevel().contadorLixos--;
         if (gp.player.score >= gp.player.recuperaTempo){
             gp.player.tempo++;

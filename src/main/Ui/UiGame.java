@@ -21,10 +21,7 @@ public class UiGame extends Ui{
         definirImagens();
     }
 
-    @Override
-    public void sound() {
-        gp.playMusic(2);
-    }
+    
 
     public void definirImagens(){
         try{
@@ -115,7 +112,7 @@ public class UiGame extends Ui{
         }
         gp.levelManager.getActiveLevel().finish();
     }
-
+    
     // public void skills(Graphics2D g2){
     //     drawString("SKILLS: ", gp.tileSize*9, gp.screenHeight-(gp.tileSize*3), g2);
     //     g2.drawImage(skillSpeed, gp.tileSize*9+10, gp.screenHeight-(gp.tileSize*3)+20, gp.tileSize, gp.tileSize, null);

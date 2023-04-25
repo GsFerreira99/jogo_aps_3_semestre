@@ -21,10 +21,10 @@ public class CarroLixo extends Item{
     }
     public void getCaminhaoImage(Game gp) {
         try{
-            gp.player.up1 = ImageIO.read(new FileInputStream("res/items/caminhao/caminhao_front.png"));
-            gp.player.up2 = ImageIO.read(new FileInputStream("res/items/caminhao/caminhao_front.png"));
-            gp.player.down1 = ImageIO.read(new FileInputStream("res/items/caminhao/caminhao_back.png"));
-            gp.player.down2 = ImageIO.read(new FileInputStream("res/items/caminhao/caminhao_back.png"));
+            gp.player.up1 = ImageIO.read(new FileInputStream("res/items/caminhao/caminhao_up.png"));
+            gp.player.up2 = ImageIO.read(new FileInputStream("res/items/caminhao/caminhao_up.png"));
+            gp.player.down1 = ImageIO.read(new FileInputStream("res/items/caminhao/caminhao_down.png"));
+            gp.player.down2 = ImageIO.read(new FileInputStream("res/items/caminhao/caminhao_down.png"));
             gp.player.left1 = ImageIO.read(new FileInputStream("res/items/caminhao/caminhao_left_1.png"));
             gp.player.left2 = ImageIO.read(new FileInputStream("res/items/caminhao/caminhao_left_2.png"));
             gp.player.right1 = ImageIO.read(new FileInputStream("res/items/caminhao/caminhao_right_1.png"));
@@ -41,7 +41,7 @@ public class CarroLixo extends Item{
         if (gp.player.activeItem == null){
             getCaminhaoImage(gp);
             gp.player.activeItem = this;
-            gp.playEffect(4);
+            gp.playEffect(4, -15f);
             gp.player.speed = gp.player.speed*2;
             this.timeEffect = 10;
         }else if (gp.player.activeItem.name == name) {
@@ -49,12 +49,13 @@ public class CarroLixo extends Item{
         }
     }
     public void deactiveEffect(Game gp){
+        gp.player.getPlayerImage();
         gp.player.speed = 2;
         gp.player.activeItem = null;
     }
 
     public void draw(Graphics2D g2, Game gp) {
-        g2.drawImage(image, worldX, worldY, gp.tileSize, gp.tileSize, null);
+        g2.drawImage(image, worldX, worldY, gp.tileSize-2, gp.tileSize-2, null);
     }
 
 }

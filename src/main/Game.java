@@ -48,6 +48,8 @@ public class Game extends JPanel implements Runnable {
     public void setupGame(){
         gameState = menuState;
         uiManager.setTelaAtiva(0);
+        playMusic(1, -30f);
+        
     }
     public void setLevel(int level){
         levelManager.setLevel(level);
@@ -114,9 +116,9 @@ public class Game extends JPanel implements Runnable {
         g2.dispose();
     }
 
-    public void playMusic(int i) {
+    public void playMusic(int i, float v) {
         som.setSom(i);
-        som.setVolume(-10f);
+        som.setVolume(v);
         som.play();
         som.loop();
     }
@@ -125,8 +127,9 @@ public class Game extends JPanel implements Runnable {
         som.stop();
     }
 
-    public void playEffect(int i) {
+    public void playEffect(int i, float v) {
         som.setSom(i);
         som.play();
+        som.setVolume(v);
     }
 }

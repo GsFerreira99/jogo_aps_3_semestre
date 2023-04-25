@@ -5,6 +5,7 @@ import items.*;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.Random;
+import main.Som;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -12,7 +13,7 @@ public class Level {
     int numLevel;
     String mapFile;
     Game gp;
-    
+    Som som = new Som();
 
     public Item[] items = new Item[200];
 
@@ -32,7 +33,22 @@ public class Level {
         itemGenerator[4] = "Papel Higiênico";
         itemGenerator[5] = "Carro do Lixo";
     }
+    public void playMusic(int i, float v) {
+        som.setSom(i);
+        som.setVolume(v);
+        som.play();
+        som.loop();
+    }
 
+    public void stopMusic(){
+        som.stop();
+    }
+
+    public void playEffect(int i, float v) {
+        som.setSom(i);
+        som.play();
+        som.setVolume(v);
+    }
     public void start(){
         if(gp.player.activeItem != null){
             gp.player.activeItem.deactiveEffect(gp);
@@ -45,13 +61,13 @@ public class Level {
         timer = new Timer();
         criacaoDeLixos();
         gp.stopMusic();
+        playEffect(2, -10f);
     }
 
     public void finish(){
         for (int t = 0; t < items.length; t++) {items[t] = null;}
         contadorLixos = 0;
         timer.cancel();
-
     }
 
     public void novoItem() {

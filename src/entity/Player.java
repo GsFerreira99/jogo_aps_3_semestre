@@ -20,7 +20,7 @@ public class Player extends Entity {
     public int recuperaTempo = 100;
     public int levelup = 50;
     public Item activeItem = null;
-    BufferedImage image = null;
+
     public Player(Game gp, KeyHandler keyH) {
         this.gp = gp;
         this.keyH = keyH;
@@ -40,8 +40,8 @@ public class Player extends Entity {
     public void setDefaultValues() {
         x=100;
         y= (gp.tileSize*2)-4;
-        largura = gp.tileSize-5;
-        altura = gp.tileSize-5;
+        largura = gp.tileSize-4;
+        altura = gp.tileSize-4;
         speed=2;
         direction = "down";
     }
@@ -98,9 +98,11 @@ public class Player extends Entity {
             spriteCounter++;
             if(spriteCounter > 10) {
                 if (spriteNum == 1) {
+                    gp.playEffect(3, -35f);
                     spriteNum = 2;
                 } else if (spriteNum == 2) {
                     spriteNum=1;
+                    
                 }
                 spriteCounter=0;
             }
@@ -120,7 +122,7 @@ public class Player extends Entity {
     }
     public void draw(Graphics2D g2) {
 
-        
+        BufferedImage image = null;
         switch (direction) {
             case "up" -> {
                 if (spriteNum == 1) {
