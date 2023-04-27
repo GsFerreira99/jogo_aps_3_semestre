@@ -9,27 +9,31 @@ import java.io.IOException;
 public class Vilao extends Entity {
 
     Game gp;
+    int distancia = 0;
    
     public Vilao(Game gp) {
         this.gp = gp;
 
         solidArea = new Rectangle();
-        solidArea.x = 8;
-        solidArea.y = 16;
+        solidArea.x = 4;
+        solidArea.y = 10;
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
-        solidArea.width = 32;
-        solidArea.height = 32;
+        solidArea.width = 20;
+        solidArea.height = 20;
 
         setDefaultValues();
         getPlayerImage();
     }
 
     public void setDefaultValues() {
-        x= (gp.tileSize*13)-4;
-        y= (gp.tileSize*9)-4;
+        x=100;
+        y= (gp.tileSize*2)-4;
+        largura = gp.tileSize-4;
+        altura = gp.tileSize-4;
         speed=1;
-        direction = "down";
+        direction = "padrão";
+        
     }
 
     public void getPlayerImage() {
@@ -46,32 +50,146 @@ public class Vilao extends Entity {
             e.printStackTrace();
         }
     }
+    public int routeCheck(String locked_direction){
+        int distancia1 = 0;
+        int distancia2 = 0;
+        int xInicial = x;
+        int yInicial = y;
+        String blocked = "";
+        if (locked_direction == "up" || locked_direction == "down"){
+            while (true) {
+                x += speed;
+                distancia1 ++;
+                if(!gp.cCHecker.checkTile(this, locked_direction)){
+                    System.out.println(distancia1);
+                    x = xInicial;
+                    break;
+                }
+                if(gp.cCHecker.checkTile(this, "right")){
+                    
+                    x = xInicial;
+                    direction = "left";
+                    blocked = "right";
+                }
+            }
+            System.out.println("saiuu");
+            while (true) {
+                x -= speed;
+                distancia2 ++;
+                if(!gp.cCHecker.checkTile(this, locked_direction)){
+                    x = xInicial;
+                    System.out.println(distancia2);
+                    break;
+                }
+                if(gp.cCHecker.checkTile(this, "left")){
+                    x = xInicial;
+                    direction = "right";
+                    blocked = "left";
 
+                }
+            }
+                if (blocked == "right"){
+                    return distancia2;
+
+                }else if (blocked == "left"){
+                    return distancia1;
+                }
+                
+                if (distancia1 > distancia2){
+                    return distancia2;
+                }else{
+                    return distancia1;
+                }
+            
+        }else{
+            while (true) {
+                y += speed;
+                distancia1 ++;
+                if(!gp.cCHecker.checkTile(this, locked_direction)){
+                    System.out.println(distancia1);
+                    y = yInicial;
+                    break;
+                }
+                if(gp.cCHecker.checkTile(this, "down")){
+                    
+                    y = yInicial;
+                    direction = "up";
+                    blocked = "down";
+                }
+            }
+            System.out.println("saiuu");
+            while (true) {
+                y -= speed;
+                distancia2 ++;
+                if(!gp.cCHecker.checkTile(this, locked_direction)){
+                    y = yInicial;
+                    System.out.println(distancia2);
+                    break;
+                }
+                if(gp.cCHecker.checkTile(this, "up")){
+                    y = xInicial;
+                    direction = "down";
+                    blocked = "up";
+
+                }
+            }
+                if (blocked == "down"){
+                    return distancia2;
+
+                }else if (blocked == "up"){
+                    return distancia1;
+                }
+                
+                if (distancia1 > distancia2){
+                    return distancia2;
+                }else{
+                    return distancia1;
+                }
+        }
+        
+       
+    
+    }
     public void update(Player player){
         if (x != player.x || y != player.y) {
-            if(y > player.y) {
+            System.out.println(distancia);
+            if (distancia > 0){
+                System.out.println(distancia);
+                distancia --;
+            }else if(y > player.y && !gp.cCHecker.checkTile(this, "up")) {
                 direction = "up";
-            }else if(y < player.y) {
+            }else if(y < player.y  && !gp.cCHecker.checkTile(this, "down")) {
                 direction = "down";
-            }else if(x > player.x) {
+            }else if(x > player.x  && !gp.cCHecker.checkTile(this, "left")) {
                 direction = "left";
-            }else if(x < player.x) {
+            }else if(x < player.x  && !gp.cCHecker.checkTile(this, "right")) {
                 direction = "right";
+            }else{
+                if(y > player.y && gp.cCHecker.checkTile(this, "up")) {
+                    distancia = routeCheck("up");
+                }else if(y < player.y  && gp.cCHecker.checkTile(this, "down")) {
+                    distancia = routeCheck("down");
+                }else if(x > player.x  && gp.cCHecker.checkTile(this, "left")) {
+                    distancia = routeCheck("left");
+                }else if(x < player.x  && gp.cCHecker.checkTile(this, "right")) {
+                    distancia = routeCheck("right");
+                }
             }
+            
 
+           
             // CHECAGEM DE COLISÃO
-            colisionOn = false;
-            gp.cCHecker.checkTile(this);
+            
 
             // SE COLISÃO FOR 'false' SE MOVER
-            if(!colisionOn) {
+            
                 switch (direction) {
                     case "up" -> y -= speed;
                     case "down" -> y += speed;
                     case "left" -> x -= speed;
                     case "right" -> x += speed;
                 }
-            }
+            
 
             spriteCounter++;
             if(spriteCounter > 10) {
@@ -123,9 +241,17 @@ public class Vilao extends Entity {
                     image = right2;
                 }
             }
+            case "padrão" -> {
+                if (spriteNum == 1) {
+                    image = down1;
+                }
+                if (spriteNum == 2) {
+                    image = down2;
+                }
+            }
 
         }
 
-        g2.drawImage(image, x, y, gp.tileSize-10, gp.tileSize-10, null);
+        g2.drawImage(image, x, y, largura, altura, null);
     }
 }

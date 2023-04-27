@@ -78,8 +78,7 @@ public class Player extends Entity {
             }
 
             // CHECAGEM DE COLISÃO
-            colisionOn = false;
-            gp.cCHecker.checkTile(this);
+            
 
             //CHECAGEM DE COLISÃO COM OBJETOS
             int objIndex = gp.cCHecker.checkObject(this, 
@@ -88,7 +87,7 @@ public class Player extends Entity {
             pegarLixo(objIndex);
 
             // SE COLISÃO FOR 'false' SE MOVER
-            if(!colisionOn) {
+            if(!gp.cCHecker.checkTile(this, direction)) {
                 switch (direction) {
                     case "up" -> y -= speed;
                     case "down" -> y += speed;
