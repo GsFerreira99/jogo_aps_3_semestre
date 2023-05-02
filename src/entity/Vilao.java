@@ -5,29 +5,35 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class Vilao extends Entity {
 
     Game gp;
    
-    public Vilao(Game gp) {
+    public Vilao(Game gp, int x, int y) {
         this.gp = gp;
 
         solidArea = new Rectangle();
         solidArea.x = 4;
-        solidArea.y = 10;
+        solidArea.y = 7;
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
         solidArea.width = 20;
         solidArea.height = 20;
-
+        defautX = x;
+        defautY = y;
         setDefaultValues();
         getPlayerImage();
     }
 
     public void setDefaultValues() {
-        x=100;
-        y= (gp.tileSize*2)-4;
+        this.x=defautX;
+        this.y= defautY;
+        locx=x;
+        locy= y;
         largura = gp.tileSize-4;
         altura = gp.tileSize-4;
         speed=1;
@@ -50,40 +56,129 @@ public class Vilao extends Entity {
         }
     }
    
+    public ArrayList<Integer> findPath(int startX, int startY, int targetX, int targetY) {
+        int startCol = startX/gp.tileSize;
+        int startRow = startY/gp.tileSize;
+        int targetCol = targetX/gp.tileSize;
+        int targetRow = targetY/gp.tileSize;
+        int numVertices = gp.maxScreenCol*gp.maxScreenRow;
+        // Encontra o índice do vértice inicial e final
+        int startIndex = startCol * gp.maxScreenRow + startRow;
+        int targetIndex = targetCol * gp.maxScreenRow + targetRow;
+    
+        // Vetor de visitados e fila para BFS
+        boolean[] visitado = new boolean[numVertices];
+        int[] fila = new int[numVertices];
+        int inicioFila = 0;
+        int fimFila = 0;
+    
+        // Marca o vértice inicial como visitado e adiciona à fila
+        visitado[startIndex] = true;
+        fila[fimFila++] = startIndex;
+    
+        // Vetor de pais para reconstruir o caminho depois
+        int[] pai = new int[numVertices];
+        Arrays.fill(pai, -1);
+    
+        // BFS
+        while (inicioFila != fimFila) {
+            int verticeAtual = fila[inicioFila++];
+            for (int vizinho = 0; vizinho < gp.tileM.graph[verticeAtual].length; vizinho++) {
+                if (gp.tileM.graph[verticeAtual][vizinho]){
+                    if (!visitado[vizinho]) {
+                        visitado[vizinho] = true;
+                        fila[fimFila++] = vizinho;
+                        pai[vizinho] = verticeAtual;
+                        
+                        if (vizinho == targetIndex) {
+                            // Chegou ao destino, reconstrói o caminho e retorna
+                            ArrayList<Integer> caminho = new ArrayList<>();
+                            int paiAtual = pai[vizinho];
+                            while (paiAtual != -1) {
+                                caminho.add(paiAtual);
+                                paiAtual = pai[paiAtual];
+                            }
+                            
+                            Collections.reverse(caminho);
+                            if (caminho.get(0)==startIndex){
+                                caminho.remove(0);
+                            }
+                            caminho.add(targetIndex); 
+                            return caminho;
+                        }
+                    }
+                }
+            }
+            }
+        
+        // Não encontrou caminho
+        return null;
+    }
+   
     public void update(Player player){
-        if (x != player.x || y != player.y) {
-            
-            if(y > player.y && !gp.cCHecker.checkTile(this, "up")) {
-                direction = "up";
-            }else if(y < player.y  && !gp.cCHecker.checkTile(this, "down")) {
-                direction = "down";
-            }else if(x > player.x  && !gp.cCHecker.checkTile(this, "left")) {
-                direction = "left";
-            }else if(x < player.x  && !gp.cCHecker.checkTile(this, "right")) {
-                direction = "right";
+        
+        ArrayList<Integer> caminho = findPath(locx, locy, player.locx, player.locy);
+        System.out.println(caminho);
+        if (caminho == null || caminho.isEmpty()){
+            gp.playEffect(7, -10f);
+            try {
+                Thread.sleep(3000); // 1000 milissegundos = 1 segundo
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-            
-            switch (direction) {
-                    case "up" -> y -= speed;
-                    case "down" -> y += speed;
-                    case "left" -> x -= speed;
-                    case "right" -> x += speed;
-                }
-            
-
-            spriteCounter++;
-            if(spriteCounter > 10) {
-                if (spriteNum == 1) {
-                    spriteNum = 2;
-                } else if (spriteNum == 2) {
-                    spriteNum=1;
-                }
-                spriteCounter=0;
-            }
-
+            gp.gameState = gp.gameOver;
+            return;
         }
-
-
+        int fimTile = caminho.get(0);
+        
+        int fimCol = fimTile/gp.maxScreenRow;
+        int fimRow = fimTile%gp.maxScreenRow;
+        int fimx = fimCol*gp.tileSize;
+        int fimy = fimRow*gp.tileSize;
+        
+        if(y > fimy) {
+            direction = "up";
+            
+        }else if(y < fimy) {
+            direction = "down";
+           
+        }else if(x > fimx) {
+            direction = "left";
+        }else if(x < fimx) {
+            direction = "right";
+            
+        }
+        
+        if(!gp.cCHecker.checkTile(this, direction)) {
+            switch (direction) {
+                case "up" -> y -= speed;
+                case "down" -> y += speed;
+                case "left" -> x -= speed;
+                case "right" -> x += speed;
+            }
+        }
+        
+       
+       
+        spriteCounter++;
+        if(spriteCounter > 10) {
+            if (spriteNum == 1) {
+                spriteNum = 2;
+            } else if (spriteNum == 2) {
+                spriteNum=1;
+                
+            }
+            spriteCounter=0;
+        }
+        locx=x;
+        locy= y;
+        if (direction == "left"){
+            locx+=27;
+        }
+        if (direction == "up"){
+            locy+=25;
+        }
+        
     }
     public void draw(Graphics2D g2) {
 

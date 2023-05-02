@@ -41,7 +41,7 @@ public class Item {
     }
 
     public void draw(Graphics2D g2, Game gp) {
-        g2.drawImage(image, worldX, worldY, gp.tileSize/2, gp.tileSize/2, null);
+        g2.drawImage(image, worldX, worldY, gp.tileSize-10, gp.tileSize-10, null);
     }
 
     public void setPrimeiraExibicao(){

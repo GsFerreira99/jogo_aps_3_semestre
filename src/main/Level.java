@@ -8,6 +8,7 @@ import java.util.Random;
 import main.Som;
 import java.util.Timer;
 import java.util.TimerTask;
+import entity.Vilao;
 
 public class Level {
     int numLevel;
@@ -49,15 +50,14 @@ public class Level {
         som.play();
         som.setVolume(v);
     }
+    
     public void start(){
         if(gp.player.activeItem != null){
             gp.player.activeItem.deactiveEffect(gp);
         }
-        
-        gp.player.tempo = 5;
-        gp.player.score = 0;
-        gp.player.recuperaTempo = 100;
-        gp.player.levelup = 50;
+        gp.player.setDefaultValues();
+        gp.vilao1.setDefaultValues();
+        gp.vilao2.setDefaultValues();
         timer = new Timer();
         criacaoDeLixos();
         gp.stopMusic();
@@ -65,7 +65,7 @@ public class Level {
     }
 
     public void finish(){
-        for (int t = 0; t < items.length; t++) {items[t] = null;}
+        Arrays.fill(items, null);
         contadorLixos = 0;
         timer.cancel();
     }

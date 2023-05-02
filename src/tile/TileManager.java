@@ -11,16 +11,27 @@ public class TileManager {
     Game gp;
     public Tile[] tile;
     public int[][] mapTileNum;
+    public boolean[][] graph;
 
     public TileManager(Game gp) {
         this.gp = gp;
-        tile = new Tile[20];
+        tile = new Tile[200];
         mapTileNum = new int[gp.maxScreenCol][gp.maxScreenRow];
+        graph = new boolean[gp.maxScreenCol * gp.maxScreenRow][gp.maxScreenCol * gp.maxScreenRow];
         getTileImage();
         loadMap("res/maps/fase_1.txt");
+        buildGraph();
+        for (int i = 0; i < graph[99].length; i++) {
+            if (graph[59][i]){
+                System.out.println(i);
+            }
+            
+        }
+       
     }
 
     public void getTileImage() {
+        
         try {
             tile[0] = new Tile(ImageIO.read(new FileInputStream("res/tiles/rua_v.png")), false);
             tile[1] = new Tile(ImageIO.read(new FileInputStream("res/tiles/rua_h.png")), false);
@@ -38,7 +49,7 @@ public class TileManager {
             tile[13] = new Tile(ImageIO.read(new FileInputStream("res/tiles/predio.png")), true);
         } catch (IOException e){e.printStackTrace();}
     }
-
+    
     public void loadMap(String mapFile) {
         try {
             BufferedReader br = new BufferedReader(new FileReader(mapFile));
@@ -62,6 +73,38 @@ public class TileManager {
             System.out.println(e);
         }
     }
+
+    public void buildGraph() {
+        for (int col = 0; col < gp.maxScreenCol; col++) {
+            for (int row = 0; row < gp.maxScreenRow; row++) {
+                int index = col * gp.maxScreenRow + row;
+                // Verifique se o tile é transponível.
+                if (!tile[mapTileNum[col][row]].colision) {
+                    // Adicione arestas para os tiles adjacentes.
+                    //esquerda
+                    if (col > 0 && !tile[mapTileNum[col-1][row]].colision) {
+                        graph[index][(col-1) * gp.maxScreenRow + row] = true;
+                        graph[(col-1) * gp.maxScreenRow + row][index] = true;
+                    }
+                    //direita
+                    if (col < gp.maxScreenCol-1 && !tile[mapTileNum[col+1][row]].colision) {
+                        graph[index][(col+1) * gp.maxScreenRow + row] = true;
+                        graph[(col+1) * gp.maxScreenRow + row][index] = true;
+                    }
+                    // encima
+                    if (row > 0 && !tile[mapTileNum[col][row-1]].colision) {
+                        graph[index][col * gp.maxScreenRow + (row-1)] = true;
+                        graph[col * gp.maxScreenRow + (row-1)][index] = true;
+                    }
+                    //embaixo
+                    if (row < gp.maxScreenRow-1 && !tile[mapTileNum[col][row+1]].colision) {
+                        graph[index][col * gp.maxScreenRow + (row+1)] = true;
+                        graph[col * gp.maxScreenRow + (row+1)][index] = true;
+                    }
+                }
+            }
+        }
+    }    
 
     public void draw(Graphics2D g2) {
         g2.drawImage(tile[0].image, 0, 0, gp.tileSize, gp.tileSize, null);
