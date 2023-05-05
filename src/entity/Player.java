@@ -15,11 +15,11 @@ public class Player extends Entity {
 
     Game gp;
     KeyHandler keyH;
-    public int score;
-    public int tempo;
-    public int recuperaTempo;
-    public int levelup;
-    public Item activeItem;
+    public int score=0;
+    public int tempo = 5;
+    public int recuperaTempo = 100;
+    public int levelup = 50;
+    public Item activeItem = null;
     public int som = 3;
     public float somVolume = -35f;
 
@@ -29,28 +29,23 @@ public class Player extends Entity {
 
         solidArea = new Rectangle();
         solidArea.x = 4;
-        solidArea.y = 7;
+        solidArea.y = 10;
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
         solidArea.width = 20;
         solidArea.height = 20;
+
+        setDefaultValues();
         getPlayerImage();
     }
 
     public void setDefaultValues() {
-        x=(gp.tileSize*1)+2;
-        y= (gp.tileSize*4)+2;
-        locx = x+15;
-        locy = y+15;
-        largura = gp.tileSize-7;
-        altura = gp.tileSize-7;
+        x=100;
+        y= (gp.tileSize*2)-4;
+        largura = gp.tileSize-4;
+        altura = gp.tileSize-4;
         speed=2;
         direction = "down";
-        tempo = 5;
-        score = 0;
-        recuperaTempo = 100;
-        levelup = 50;
-        activeItem = null;
     }
 
     public void getPlayerImage() {
@@ -63,7 +58,6 @@ public class Player extends Entity {
             left2 = ImageIO.read(new FileInputStream("res/player/boy_left_2.png"));
             right1 = ImageIO.read(new FileInputStream("res/player/boy_right_1.png"));
             right2 = ImageIO.read(new FileInputStream("res/player/boy_right_2.png"));
-            dead = ImageIO.read(new FileInputStream("res/player/PlayerDead.png"));
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -125,8 +119,7 @@ public class Player extends Entity {
                 }
            }
         }
-        locx = x+15;
-        locy = y+15;
+        
     }
     public void draw(Graphics2D g2) {
 

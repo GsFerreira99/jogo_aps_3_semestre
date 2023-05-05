@@ -19,7 +19,6 @@ public class Som {
         somUrl[4] = new File("res/sound/pegar_item.wav");
         somUrl[5] = new File("res/sound/PegarCarro.wav");
         somUrl[6] = new File("res/sound/SomCarro.wav");
-        somUrl[7] = new File("res/sound/vilao.wav");
     }
 
     public void setSom(int i) {
