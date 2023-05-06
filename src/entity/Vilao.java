@@ -34,8 +34,8 @@ public class Vilao extends Entity {
         this.y= defautY;
         locx=x;
         locy= y;
-        largura = gp.tileSize-4;
-        altura = gp.tileSize-4;
+        largura = gp.tileSize-12;
+        altura = gp.tileSize-12;
         speed=1;
         direction = "padrão";
         
@@ -43,14 +43,32 @@ public class Vilao extends Entity {
 
     public void getPlayerImage() {
         try{
-            up1 = ImageIO.read(new FileInputStream("res/player/boy_up_1.png"));
-            up2 = ImageIO.read(new FileInputStream("res/player/boy_up_2.png"));
-            down1 = ImageIO.read(new FileInputStream("res/player/boy_down_1.png"));
-            down2 = ImageIO.read(new FileInputStream("res/player/boy_down_2.png"));
-            left1 = ImageIO.read(new FileInputStream("res/player/boy_left_1.png"));
-            left2 = ImageIO.read(new FileInputStream("res/player/boy_left_2.png"));
-            right1 = ImageIO.read(new FileInputStream("res/player/boy_right_1.png"));
-            right2 = ImageIO.read(new FileInputStream("res/player/boy_right_2.png"));
+            up[0] = ImageIO.read(new FileInputStream("res/vilao/vilao_up_1.png"));
+            up[1] = ImageIO.read(new FileInputStream("res/vilao/vilao_up_2.png"));
+            up[2] = ImageIO.read(new FileInputStream("res/vilao/vilao_up_3.png"));
+            up[3] = ImageIO.read(new FileInputStream("res/vilao/vilao_up_4.png"));
+            down[0] = ImageIO.read(new FileInputStream("res/vilao/vilao_down_1.png"));
+            down[1] = ImageIO.read(new FileInputStream("res/vilao/vilao_down_2.png"));
+            down[2] = ImageIO.read(new FileInputStream("res/vilao/vilao_down_3.png"));
+            down[3] = ImageIO.read(new FileInputStream("res/vilao/vilao_down_4.png"));
+            left[0] = ImageIO.read(new FileInputStream("res/vilao/vilao_left_1.png"));
+            left[1] = ImageIO.read(new FileInputStream("res/vilao/vilao_left_2.png"));
+            left[2] = ImageIO.read(new FileInputStream("res/vilao/vilao_left_3.png"));
+            left[3] = ImageIO.read(new FileInputStream("res/vilao/vilao_left_4.png"));
+            left[4] = ImageIO.read(new FileInputStream("res/vilao/vilao_left_5.png"));
+            left[5] = ImageIO.read(new FileInputStream("res/vilao/vilao_left_6.png"));
+            left[6] = ImageIO.read(new FileInputStream("res/vilao/vilao_left_7.png"));
+            left[7] = ImageIO.read(new FileInputStream("res/vilao/vilao_left_8.png"));
+            right[0] = ImageIO.read(new FileInputStream("res/vilao/vilao_right_1.png"));
+            right[1] = ImageIO.read(new FileInputStream("res/vilao/vilao_right_2.png"));
+            right[2] = ImageIO.read(new FileInputStream("res/vilao/vilao_right_3.png"));
+            right[3] = ImageIO.read(new FileInputStream("res/vilao/vilao_right_4.png"));
+            right[4] = ImageIO.read(new FileInputStream("res/vilao/vilao_right_5.png"));
+            right[5] = ImageIO.read(new FileInputStream("res/vilao/vilao_right_6.png"));
+            right[6] = ImageIO.read(new FileInputStream("res/vilao/vilao_right_7.png"));
+            right[7] = ImageIO.read(new FileInputStream("res/vilao/vilao_right_8.png"));
+           
+    
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -114,19 +132,19 @@ public class Vilao extends Entity {
         // Não encontrou caminho
         return null;
     }
-   
+    int sleep = 180;
     public void update(Player player){
         
         ArrayList<Integer> caminho = findPath(locx, locy, player.locx, player.locy);
-        System.out.println(caminho);
         if (caminho == null || caminho.isEmpty()){
-            gp.playEffect(7, -10f);
-            try {
-                Thread.sleep(3000); // 1000 milissegundos = 1 segundo
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            gp.player.direction = "dead";
+            if (sleep == 179){
+                gp.playEffect(7, -5f);
             }
-            gp.gameState = gp.gameOver;
+            if (sleep == 0){
+                gp.gameState = gp.gameOver;
+                sleep = 180;
+            }else{sleep--;}
             return;
         }
         int fimTile = caminho.get(0);
@@ -138,7 +156,7 @@ public class Vilao extends Entity {
         
         if(y > fimy) {
             direction = "up";
-            
+        
         }else if(y < fimy) {
             direction = "down";
            
@@ -161,12 +179,10 @@ public class Vilao extends Entity {
        
        
         spriteCounter++;
-        if(spriteCounter > 10) {
-            if (spriteNum == 1) {
-                spriteNum = 2;
-            } else if (spriteNum == 2) {
-                spriteNum=1;
-                
+        if(spriteCounter > 2) {
+            spriteNum++;
+            if (spriteNum == up.length){
+                spriteNum = 0;
             }
             spriteCounter=0;
         }
@@ -185,44 +201,34 @@ public class Vilao extends Entity {
         BufferedImage image = null;
         switch (direction) {
             case "up" -> {
-                if (spriteNum == 1) {
-                    image = up1;
+                if(up[spriteNum] == null){
+                    spriteNum = 0;
                 }
-                if (spriteNum == 2) {
-                    image = up2;
-                }
+                image = up[spriteNum];
             }
             case "down" -> {
-                if (spriteNum == 1) {
-                    image = down1;
+                if(down[spriteNum] == null){
+                    spriteNum = 0;
                 }
-                if (spriteNum == 2) {
-                    image = down2;
-                }
+                image = down[spriteNum];
             }
             case "left" -> {
-                if (spriteNum == 1) {
-                    image = left1;
+                if(left[spriteNum] == null){
+                    spriteNum = 0;
                 }
-                if (spriteNum == 2) {
-                    image = left2;
-                }
+                image = left[spriteNum];
             }
             case "right" -> {
-                if (spriteNum == 1) {
-                    image = right1;
+                if(right[spriteNum] == null){
+                    spriteNum = 0;
                 }
-                if (spriteNum == 2) {
-                    image = right2;
-                }
+                image = right[spriteNum];
             }
             case "padrão" -> {
-                if (spriteNum == 1) {
-                    image = down1;
+                if(down[spriteNum] == null){
+                    spriteNum = 0;
                 }
-                if (spriteNum == 2) {
-                    image = down2;
-                }
+                image = down[spriteNum];
             }
 
         }

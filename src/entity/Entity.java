@@ -10,11 +10,15 @@ public class Entity {
     public int locx, locy;
     public int largura, altura;
     public int speed;
+    public BufferedImage image;
 
-    public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2, dead;
+    public BufferedImage[] up = new BufferedImage[10];
+    public BufferedImage[] down = new BufferedImage[10];
+    public BufferedImage[] left = new BufferedImage[10];
+    public BufferedImage[] right = new BufferedImage[10];
     public String direction;
     public int spriteCounter=0;
-    public int spriteNum=1;
+    public int spriteNum=0;
     public Rectangle solidArea;
     public int solidAreaDefaultX,solidAreaDefaultY;
 }
