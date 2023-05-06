@@ -22,6 +22,7 @@ public class Player extends Entity {
     public Item activeItem = null;
     public int som = 3;
     public float somVolume = -35f;
+    public BufferedImage  dead;
 
     public Player(Game gp, KeyHandler keyH) {
         this.gp = gp;
@@ -50,6 +51,7 @@ public class Player extends Entity {
 
     public void getPlayerImage() {
         try{
+<<<<<<< HEAD
             up1 = ImageIO.read(new FileInputStream("res/player/boy_up_1.png"));
             up2 = ImageIO.read(new FileInputStream("res/player/boy_up_2.png"));
             down1 = ImageIO.read(new FileInputStream("res/player/boy_down_1.png"));
@@ -58,6 +60,17 @@ public class Player extends Entity {
             left2 = ImageIO.read(new FileInputStream("res/player/boy_left_2.png"));
             right1 = ImageIO.read(new FileInputStream("res/player/boy_right_1.png"));
             right2 = ImageIO.read(new FileInputStream("res/player/boy_right_2.png"));
+=======
+            up[0] = ImageIO.read(new FileInputStream("res/player/boy_up_1.png"));
+            up[1] = ImageIO.read(new FileInputStream("res/player/boy_up_2.png"));
+            down[0] = ImageIO.read(new FileInputStream("res/player/boy_down_1.png"));
+            down[1] = ImageIO.read(new FileInputStream("res/player/boy_down_2.png"));
+            left[0] = ImageIO.read(new FileInputStream("res/player/boy_left_1.png"));
+            left[1] = ImageIO.read(new FileInputStream("res/player/boy_left_2.png"));
+            right[0] = ImageIO.read(new FileInputStream("res/player/boy_right_1.png"));
+            right[1] = ImageIO.read(new FileInputStream("res/player/boy_right_2.png"));
+            dead = ImageIO.read(new FileInputStream("res/player/PlayerDead.png"));
+>>>>>>> 2dfd2c9b4936183423ea13574086b44ec8d961bb
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -67,7 +80,10 @@ public class Player extends Entity {
         Ui keyH = gp.uiManager.getTelaAtiva();
 
         if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
-            if(keyH.upPressed) {
+            if (direction == "dead"){
+                direction = "dead";
+            }
+            else if(keyH.upPressed) {
                 direction = "up";
             }else if(keyH.downPressed) {
                 direction = "down";
@@ -93,21 +109,19 @@ public class Player extends Entity {
                     case "down" -> y += speed;
                     case "left" -> x -= speed;
                     case "right" -> x += speed;
+                    case "dead" -> direction = "dead";
                 }
             }
 
             spriteCounter++;
             if(spriteCounter > 10) {
-                if (spriteNum == 1) {
+                spriteNum++;
+                if (spriteNum == 2){
                     gp.playEffect(som, somVolume);
-                    spriteNum = 2;
-                } else if (spriteNum == 2) {
-                    spriteNum=1;
-                    
+                    spriteNum = 0;
                 }
                 spriteCounter=0;
             }
-
         }
         if (activeItem != null){
            activeItem.countTimeEffect++;
@@ -123,40 +137,22 @@ public class Player extends Entity {
     }
     public void draw(Graphics2D g2) {
 
-        BufferedImage image = null;
+        image = null;
         switch (direction) {
             case "up" -> {
-                if (spriteNum == 1) {
-                    image = up1;
-                }
-                if (spriteNum == 2) {
-                    image = up2;
-                }
-                
+                image = up[spriteNum];
             }
             case "down" -> {
-                if (spriteNum == 1) {
-                    image = down1;
-                }
-                if (spriteNum == 2) {
-                    image = down2;
-                }
+                image = down[spriteNum];
             }
             case "left" -> {
-                if (spriteNum == 1) {
-                    image = left1;
-                }
-                if (spriteNum == 2) {
-                    image = left2;
-                }
+                image = left[spriteNum];
             }
             case "right" -> {
-                if (spriteNum == 1) {
-                    image = right1;
-                }
-                if (spriteNum == 2) {
-                    image = right2;
-                }
+                image = right[spriteNum];
+            }
+            case "dead" -> {
+                image = dead;
             }
 
         }

@@ -21,14 +21,16 @@ public class CarroLixo extends Item{
     }
     public void getCaminhaoImage(Game gp) {
         try{
-            gp.player.up1 = ImageIO.read(new FileInputStream("res/items/caminhao/caminhao_up.png"));
-            gp.player.up2 = ImageIO.read(new FileInputStream("res/items/caminhao/caminhao_up.png"));
-            gp.player.down1 = ImageIO.read(new FileInputStream("res/items/caminhao/caminhao_down.png"));
-            gp.player.down2 = ImageIO.read(new FileInputStream("res/items/caminhao/caminhao_down.png"));
-            gp.player.left1 = ImageIO.read(new FileInputStream("res/items/caminhao/caminhao_left_1.png"));
-            gp.player.left2 = ImageIO.read(new FileInputStream("res/items/caminhao/caminhao_left_2.png"));
-            gp.player.right1 = ImageIO.read(new FileInputStream("res/items/caminhao/caminhao_right_1.png"));
-            gp.player.right2 = ImageIO.read(new FileInputStream("res/items/caminhao/caminhao_right_2.png"));
+            gp.player.up[0] = ImageIO.read(new FileInputStream("res/items/caminhao/caminhao_up.png"));
+            gp.player.up[1] = ImageIO.read(new FileInputStream("res/items/caminhao/caminhao_up.png"));
+            gp.player.down[0] = ImageIO.read(new FileInputStream("res/items/caminhao/caminhao_down.png"));
+            gp.player.down[1] = ImageIO.read(new FileInputStream("res/items/caminhao/caminhao_down.png"));
+            gp.player.left[0] = ImageIO.read(new FileInputStream("res/items/caminhao/caminhao_left_1.png"));
+            gp.player.left[1] = ImageIO.read(new FileInputStream("res/items/caminhao/caminhao_left_2.png"));
+            gp.player.left[2] = ImageIO.read(new FileInputStream("res/items/caminhao/caminhao_left_3.png"));
+            gp.player.right[0] = ImageIO.read(new FileInputStream("res/items/caminhao/caminhao_right_1.png"));
+            gp.player.right[1] = ImageIO.read(new FileInputStream("res/items/caminhao/caminhao_right_2.png"));
+            gp.player.right[2] = ImageIO.read(new FileInputStream("res/items/caminhao/caminhao_right_2.png"));
             gp.player.altura = gp.tileSize;
             gp.player.largura = gp.tileSize;
         }catch (IOException e){
